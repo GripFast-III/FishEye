@@ -1,30 +1,14 @@
 async function getPhotographers() {
-  // Ceci est un exemple de données pour avoir un affichage de photographes de test dès le démarrage du projet,
-  // mais il sera à remplacer avec une requête sur le fichier JSON en utilisant "fetch".
-  let photographers = [
-    {
-      name: "Ma data test",
-      id: 1,
-      city: "Paris",
-      country: "France",
-      tagline: "Ceci est ma data test",
-      price: 400,
-      portrait: "EllieRoseWilkens.jpg",
-    },
-    {
-      name: "Autre data test",
-      id: 2,
-      city: "Londres",
-      country: "UK",
-      tagline: "Ceci est ma data test 2",
-      price: 500,
-      portrait: "account.png",
-    },
-  ];
-  // et bien retourner le tableau photographers seulement une fois récupéré
-  return {
-    photographers: [...photographers], // Virer "[...photographers]" et renvoyer à la place le résultat de la fonction "fetch" que l'on aura créé avant
-  };
+  const photographers = await fetch(
+    "https://jsonplaceholder.typicode.com/users"
+  );
+  if (photographers.ok === true) {
+    const photographersResponse = await photographers.json();
+    return {
+      photographers: photographersResponse,
+    };
+  }
+  throw new Error("Impossible de contacter le serveur");
 }
 
 async function displayData(photographers) {
@@ -44,3 +28,13 @@ async function init() {
 }
 
 init();
+
+/*
+const photographers = fetch(
+  "https://jsonplaceholder.typicode.com/users"
+).then((photographers) => photographers.json);
+
+fetch('https://jsonplaceholder.typicode.com/users"').then(
+  (photographers) => photographers.json
+);
+*/
