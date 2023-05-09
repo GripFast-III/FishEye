@@ -1,14 +1,21 @@
 async function getPhotographers() {
-  const photographers = await fetch(
-    "https://jsonplaceholder.typicode.com/users"
-  );
-  if (photographers.ok === true) {
-    const photographersResponse = await photographers.json();
-    return {
-      photographers: photographersResponse,
-    };
+  try {
+    const fetchPhotographers = await fetch("./photographers.json");
+    if (fetchPhotographers.ok) {
+      const photographersResponse = await fetchPhotographers.json();
+      if (photographersResponse.photographers) {
+        return {
+          photographers: photographersResponse.photographers,
+        };
+      } else {
+        throw new Error("Impossible de trouver les photographes du fichier");
+      }
+    } else {
+      throw new Error("Impossible de contacter le serveur");
+    }
+  } catch (err) {
+    console.log("oups", err);
   }
-  throw new Error("Impossible de contacter le serveur");
 }
 
 async function displayData(photographers) {
@@ -17,6 +24,11 @@ async function displayData(photographers) {
   photographers.forEach((photographer) => {
     const photographerModel = photographerFactory(photographer);
     const userCardDOM = photographerModel.getUserCardDOM();
+
+    userCardDOM.addEventListener("click", () => {
+      window.location.href = "./photographer.html?id=${photographers.id}";
+    });
+
     photographersSection.appendChild(userCardDOM);
   });
 }
@@ -28,13 +40,3 @@ async function init() {
 }
 
 init();
-
-/*
-const photographers = fetch(
-  "https://jsonplaceholder.typicode.com/users"
-).then((photographers) => photographers.json);
-
-fetch('https://jsonplaceholder.typicode.com/users"').then(
-  (photographers) => photographers.json
-);
-*/

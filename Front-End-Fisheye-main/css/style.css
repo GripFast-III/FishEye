@@ -25,10 +25,11 @@ h1 {
 }
 
 .photographer_section {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 70px;
+    display: flex;
     margin-top: 100px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .photographer_section article {
@@ -37,7 +38,10 @@ h1 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin: 4%;
+    line-height: 0%;
 }
+
 
 .photographer_section article h2 {
     color: #D3573C;
@@ -47,4 +51,15 @@ h1 {
 .photographer_section article img {
     height: 200px;
     width: 200px;
+    object-fit: cover;
+    border-radius: 100px;
+}
+
+.photgrapher_section article img:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    /*transition: 1s;*/
+}
+
+.photographer_section article h3 {
+    color: #81171c;
 }
