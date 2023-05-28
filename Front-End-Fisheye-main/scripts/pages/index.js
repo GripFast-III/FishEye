@@ -18,26 +18,6 @@ async function getPhotographers() {
   }
 }
 
-async function getMedia() {
-  try {
-    const fetchPhotographers = await fetch("./photographers.json");
-    if (fetchPhotographers.ok) {
-      const photographersResponse = await fetchPhotographers.json();
-      if (photographersResponse.photographers) {
-        return {
-          media: mediaResponse.media,
-        };
-      } else {
-        throw new Error("Impossible de trouver les photographes du fichier");
-      }
-    } else {
-      throw new Error("Impossible de contacter le serveur");
-    }
-  } catch (err) {
-    console.log("oups", err);
-  }
-}
-
 async function displayData(photographers) {
   const photographersSection = document.querySelector(".photographer_section");
 

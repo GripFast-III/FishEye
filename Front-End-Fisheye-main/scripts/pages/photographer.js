@@ -3,27 +3,18 @@ const searchParams = new URLSearchParams(paramsString);
 let currentPhotographerId = searchParams.get("id");
 console.log("idPhotographer :", currentPhotographerId);
 
-/*
-const photographerId = [243, 930, 82, 527, 925, 195];
-
-const result = data.filter(id(photographer){
-    return id === photographerId;
-});
-*/
-
-//J'ai voulu appeler les médias depuis le json afin de pouvoir les filtrer par la suite avec la const currentMedias
 async function getInfos() {
   try {
     const fetchPhotographers = await fetch("./photographers.json");
     if (fetchPhotographers.ok) {
       const photographersResponse = await fetchPhotographers.json();
       if (photographersResponse) {
-        // filterInformationId Filtrer les infos du photographe par son id
+        // Filtrer les infos du photographe par son id
         let currentP = photographersResponse.photographers.filter((user) => {
           return user.id == currentPhotographerId;
         });
 
-        // filtrer les medias par l'id du média qui doit être égal à l'id du photographe
+        // filtrer les medias par l'id du photographe
         let currentM = photographersResponse.media.filter((mediaItem) => {
           return mediaItem.photographerId == currentPhotographerId;
         });
@@ -45,8 +36,18 @@ async function getInfos() {
 getInfos().then((infos) => {
   const { photographer, medias } = infos;
   console.log("result getInfos", photographer, medias);
-  //displayPhotographer(photographer)
-  //displayMedias(medias)
-});
+  let target = document.getElementById("main");
 
-//Créer une nouvelle factory (nouveau document) media.js et y entrer l'appel des medias selon le photographe (même méthode que pour function photographerFactory(data))
+  //Création de la div media-container
+  const mediaContainer = document.createElement("div");
+  mediaContainer.classList.add("media-container");
+
+  medias.forEach((media) => {
+    let myFactoryMediaModel = mediaFactory(media, photographer);
+    const myMediaHtml = myFactoryMediaModel.getHtmlMedia();
+    mediaContainer.appendChild(myMediaHtml);
+  });
+
+  //Ajout de la div media-container à l'intérieur de l'élément main
+  target.appendChild(mediaContainer);
+});
