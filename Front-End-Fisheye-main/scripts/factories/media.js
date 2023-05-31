@@ -9,6 +9,7 @@ function mediaFactory(media, photographer) {
       let imageElement = document.createElement(`img`);
       imageElement.src = `./assets/images/${folderImage}/${media.image}`;
       imageElement.alt = media.title;
+      imageElement.classList.add("media-image"); //Ajout d'une classe aux images/photos
 
       //Ajout de l'élément image au mediaElement
       mediaElement.appendChild(imageElement);
@@ -17,11 +18,13 @@ function mediaFactory(media, photographer) {
       let videoElement = document.createElement(`video`);
       videoElement.src = `./assets/images/${folderImage}/${media.video}`;
       videoElement.controls = true;
+      videoElement.classList.add("media-video"); //Ajout d'une classe aux vidéos
 
       //Ajout de l'élément vidéo au mediaElement
       mediaElement.appendChild(videoElement);
     }
     return mediaElement;
   }
+
   return { folderImage, getHtmlMedia };
 }
