@@ -23,6 +23,15 @@ function mediaFactory(media, photographer) {
       //Ajout de l'élément vidéo au mediaElement
       mediaElement.appendChild(videoElement);
     }
+    let titleElement = document.createElement(`section`);
+    let templateTitleAndLike = `
+    <div class="info">
+     <div class="title">${media.title}</div>
+     <div class="like">${media.likes}</div>
+    </div>
+    `;
+    titleElement.innerHTML = templateTitleAndLike;
+    mediaElement.appendChild(titleElement);
     return mediaElement;
   }
 
