@@ -37,6 +37,21 @@ getInfos().then((infos) => {
   const { photographer, medias } = infos;
   console.log("result getInfos", photographer, medias);
   let target = document.getElementById("main");
+  let photographHeader = document.querySelector(".photograph-header");
+
+  const infoPhotographer = `
+  <div class="photographerInfo">
+   <h2>${photographer.name}</h2>
+   <h3>${photographer.city}</h3>
+   <h4>${photographer.tagline}</h4>
+  </div>`;
+
+  const picPhotographer = `
+  <div class="photographerPortrait">
+   <img class="photobooth" src="assets/images/photographers/${photographer.portrait}" alt="${photographer.name}">
+  </div>`;
+  photographHeader.insertAdjacentHTML("afterbegin", infoPhotographer);
+  photographHeader.insertAdjacentHTML("beforeend", picPhotographer);
 
   //Création de la div media-container
   const mediaContainer = document.createElement("div");
