@@ -65,4 +65,64 @@ getInfos().then((infos) => {
 
   //Ajout de la div media-container à l'intérieur de l'élément main
   target.appendChild(mediaContainer);
+
+  // Récupérer l'élément select et ajouter un gestionnaire d'événements pour le changement de valeur
+  const sortSelect = document.querySelector(".sort-select");
+  sortSelect.addEventListener("change", function () {
+    const sortOption = this.value;
+    sortMedia(mediaContainer, sortOption);
+  });
+
+  function sortMedia(container, option) {
+    const mediaElements = Array.from(container.getElementsByClassName("media"));
+
+    mediaElements.sort(function (a, b) {
+      const valueA = getSortValue(a, option);
+      const valueB = getSortValue(b, option);
+
+      if (valueA < valueB) {
+        return -1;
+      } else if (valueA > valueB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    mediaElements.forEach(function (mediaElement) {
+      container.appendChild(mediaElement);
+    });
+  }
+
+  function getSortValue(element, option) {
+    if (option === "popularite") {
+      return parseInt(element.querySelector(".like").textContent);
+    } else if (option === "titre") {
+      return element.querySelector(".title").textContent;
+    } else if (option === "date") {
+      return element.querySelector(".date").textContent; //----------> Le classement par date ne fonctionne pas
+    }
+  }
 });
+
+function displayModal() {
+  const contactModal = document.getElementById("contact_modal");
+  const photographerName = document.querySelector(
+    ".photographerInfo h2"
+  ).textContent;
+  const photographerNameElement = document.getElementById("photographer_name");
+
+  photographerNameElement.textContent = photographerName;
+
+  contactModal.style.display = "flex";
+}
+
+function closeModal() {
+  const contactModal = document.getElementById("contact_modal");
+  const modalContent = document.querySelector(".modal");
+
+  // Supprimer le nom du photographe avant de fermer la modal
+  modalContent.removeChild(modalContent.firstChild);
+
+  contactModal.style.display = "none";
+}

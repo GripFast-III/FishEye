@@ -58,7 +58,47 @@
     cursor: pointer;
 }
 
+.sort-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 4%;
+    padding-left: 5%;
+}
+
+.sort-by {
+    font-weight: bold;
+}
+
+.sort-select {
+    font-size: 20px;
+    color: white;
+    padding: 11px;
+    width: 170px;
+    height: 70px;
+    border: none;
+    background-color: #901C1C;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+#contact_modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+}  
+
 .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 5px;
     background-color: #DB8876;
     width: 50%;
@@ -66,23 +106,37 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 35px;
+    padding: 20px;
     margin: auto;
+    max-height: 100%;
+    overflow: auto;
 }
 
-.modal header {
-    justify-content: space-between;
-    width: 100%;
-}
-
-.modal header img {
+.cross{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: fit-content;
+    height: fit-content;
     cursor: pointer;
 }
 
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 60px;
+    font-size: 40px;
+}
+
 .modal header h2 {
-    font-size: 64px;
-    font-weight: normal;
-    text-align: center;
+    margin: 0;
+}
+
+#photographer_name {
+    margin: 0;
 }
 
 form {
@@ -140,4 +194,5 @@ form input {
     justify-content: space-between;
     width: 100%;
 }
+
 

@@ -3,6 +3,7 @@ function mediaFactory(media, photographer) {
 
   function getHtmlMedia() {
     let mediaElement = document.createElement(`div`);
+    mediaElement.classList.add("media"); //Ajout de la class "media" à chaque élement média
 
     if (media.image) {
       //Création de l'élément image
