@@ -28,7 +28,14 @@ function mediaFactory(media, photographer) {
     let templateTitleAndLike = `
     <div class="info">
      <div class="title">${media.title}</div>
-     <div class="like">${media.likes}</div>
+     <div class="likeAndHeart">
+      <div class="likes">${media.likes}
+      <button class="heart">
+       <i class="far fa-heart unchecked" aria-hidden="true"></i>
+       <i class="fas fa-heart checked" aria-hidden="true"></i>
+      </button>
+      </div>
+     </div>
     </div>
     `;
     titleElement.innerHTML = templateTitleAndLike;

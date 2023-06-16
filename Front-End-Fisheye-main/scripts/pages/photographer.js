@@ -66,7 +66,18 @@ getInfos().then((infos) => {
   //Ajout de la div media-container à l'intérieur de l'élément main
   target.appendChild(mediaContainer);
 
-  // Récupérer l'élément select et ajouter un gestionnaire d'événements pour le changement de valeur
+  // Ajout des fl^ches du carrousel
+  const carouselArrows = document.createElement("div");
+  carouselArrows.classList.add("carousel-arrows");
+  carouselArrows.innerHTML = `
+    <div class="carousel-arrow carousel-arrow-left" onclick="prevMedia()"></div>
+    <div class="carousel-arrow carousel-arrow-right" onclick="nextMedia()"></div>
+  `;
+
+  // Ajout des flèches du carrousel après "media-container"
+  target.appendChild(carouselArrows);
+
+  // Récupération de l'élément select et ajout d'un gestionnaire d'événements
   const sortSelect = document.querySelector(".sort-select");
   sortSelect.addEventListener("change", function () {
     const sortOption = this.value;
@@ -105,6 +116,7 @@ getInfos().then((infos) => {
   }
 });
 
+//Gestion de la modal
 function displayModal() {
   const contactModal = document.getElementById("contact_modal");
   const photographerName = document.querySelector(
@@ -121,8 +133,8 @@ function closeModal() {
   const contactModal = document.getElementById("contact_modal");
   const modalContent = document.querySelector(".modal");
 
-  // Supprimer le nom du photographe avant de fermer la modal
+  /*  // Suppression du nom du photographe avant de fermer la modal
   modalContent.removeChild(modalContent.firstChild);
-
+  */
   contactModal.style.display = "none";
 }

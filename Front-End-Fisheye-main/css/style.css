@@ -37,6 +37,7 @@ h1 {
 
 .photographer_section a {
     text-decoration: none;
+    width: 30%;
 }
 
 .photographer_section article {
