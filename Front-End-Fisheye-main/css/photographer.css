@@ -67,20 +67,69 @@
 }
 
 .sort-by {
-    font-weight: bold;
+  font-size: 20px;
 }
 
+.sort-by {
+    margin-right: 10px;
+}
+  
 .sort-select {
-    font-size: 20px;
-    color: white;
-    padding: 11px;
-    width: 170px;
-    height: 70px;
-    border: none;
-    background-color: #901C1C;
-    border-radius: 5px;
+    position: relative;
+    width: 120px;
+}
+  
+.selected-option {
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    margin-left: 20px;
+    padding: 10px;
+    color: white;
+    background-color: #901C1C;
+    border-radius: 4px;
+    height: 3rem;
+    width: 120px;
+}
+
+.fa-chevron-down {
+    margin-left: 15px;
+}
+
+.options-list {
+    position: absolute;
+    width: 120px;
+    z-index: 1;
+    list-style-type: none;
+    padding: 10px;
+    margin: 0;
+    color : white;
+    background-color: #901C1C;
+    border-radius: 4px;
+    display: none;
+}
+  
+.sort-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+}
+  
+.sort-option:hover {
+    background-color: #e5e5e5;
+}
+
+.sort-select li {
+    border-bottom: 2px solid white;
+    height: 2rem;
+}
+
+.sort-select li:last-child {
+    border-bottom: none;
+}
+
+.sort-select li:hover {
+    background-color: #631515;
 }
 
 #contact_modal {
@@ -101,14 +150,14 @@
     transform: translate(-50%, -50%);
     border-radius: 5px;
     background-color: #DB8876;
-    width: 50%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     padding: 20px;
     margin: auto;
-    max-height: 100%;
+    max-height: 80%;
     overflow: auto;
 }
 
@@ -128,7 +177,7 @@
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 60px;
-    font-size: 40px;
+    font-size: 35px;
 }
 
 .modal header h2 {
@@ -162,6 +211,13 @@ form div {
 form input {
     width: 100%;
     height: 68px;
+    border: none;
+    border-radius: 5px;
+}
+
+textarea {
+    width: 100%;
+    height: 10rem;
     border: none;
     border-radius: 5px;
 }
@@ -200,6 +256,7 @@ form input {
 .media .title {
     position: relative;
     text-decoration: none;
+    width: 60%;
 }
   
 .media .title::after {
@@ -235,8 +292,11 @@ form input {
 }
 
 .heart {
+    /*
     height: 5rem;
     width: 5rem;
+    */
+    margin-left: 1rem;
     background-color: initial;
     border: 0 solid transparent;
     padding: 0;
@@ -247,22 +307,26 @@ form input {
 }
 
 .unchecked {
+    /*
     margin-right: 1.5rem;
     margin-top: 1.5rem;
-    font-size: 1.5rem;
+    */
+    font-size: 1rem;
 }
 
   .unchecked:hover {
     cursor: pointer;
     opacity: 0;
     transition: 0.25s;
-    color: #9356DC;
+    color: #901C1C;
 }
   
 .checked {
+    /*
     margin-right: 1.5rem;
     margin-top: 1.5rem;
-    font-size: 1.5rem;
+    */
+    font-size: 1rem;
     color: #F2F2F2;
     opacity: 0;
     position: absolute;
@@ -272,6 +336,6 @@ form input {
 .checked:hover {
     transition: 0.25s;
     display: flex;
-    color: #9356DC;
+    color: #901C1C;
     opacity: 1;
 }

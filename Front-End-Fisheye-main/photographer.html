@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script
+      src="https://kit.fontawesome.com/76951b6d18.js"
+      crossorigin="anonymous"
+    ></script>
+    <scrip
+      src="https://fontawesome.com/icons/chevron-down?f=classic&s=solid"
+      crossorigin="anonymous"
+    ></scrip>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
@@ -23,12 +31,17 @@
         </button>
       </div>
       <div class="sort-container">
-        <label for="sort-select" class="sort-by">Trier par </label>
-        <select class="sort-select">
-          <option value="popularite">Popularité</option>
-          <option value="titre">Titre</option>
-          <option value="date">Date</option>
-        </select>
+        <div class="sort-by">Trier par</div>
+        <div class="sort-select">
+          <div class="selected-option">
+            Popularité<i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <ul class="options-list">
+            <li class="sort-option" data-value="likes">Popularité</li>
+            <li class="sort-option" data-value="title">Titre</li>
+            <li class="sort-option" data-value="date">Date</li>
+          </ul>
+        </div>
       </div>
     </main>
 
@@ -43,18 +56,24 @@
           <h2>Contactez-moi</h2>
           <h3 id="photographer_name"></h3>
         </header>
-        <form>
+        <form onsubmit="event.preventDefault();">
           <div>
-            <label>Prénom</label>
-            <input />
-            <label>Nom</label>
-            <input />
-            <label>e-mail</label>
-            <input />
-            <label>Votre message </label>
-            <input />
+            <label for="first_name">Prénom</label>
+            <input id="first_name" type="text" />
+            <label for="last_name">Nom</label>
+            <input id="last_name" type="text" />
+            <label for="email">e-mail</label>
+            <input id="email" type="email" />
+            <label for="message">Votre message</label>
+            <textarea id="message"></textarea>
           </div>
-          <button class="contact_button">Envoyer</button>
+          <button
+            class="contact_button"
+            type="submit"
+            onclick="redirectToPhotographerPage()"
+          >
+            Envoyer
+          </button>
         </form>
       </div>
     </div>

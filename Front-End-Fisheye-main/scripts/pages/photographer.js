@@ -2,6 +2,7 @@ const paramsString = window.location.search;
 const searchParams = new URLSearchParams(paramsString);
 let currentPhotographerId = searchParams.get("id");
 console.log("idPhotographer :", currentPhotographerId);
+let allMedia = [];
 
 async function getInfos() {
   try {
@@ -35,7 +36,7 @@ async function getInfos() {
 
 getInfos().then((infos) => {
   const { photographer, medias } = infos;
-  console.log("result getInfos", photographer, medias);
+  allMedia = medias;
   let target = document.getElementById("main");
   let photographHeader = document.querySelector(".photograph-header");
 
@@ -80,16 +81,26 @@ getInfos().then((infos) => {
   // Récupération de l'élément select et ajout d'un gestionnaire d'événements
   const sortSelect = document.querySelector(".sort-select");
   sortSelect.addEventListener("change", function () {
+    // Récupération de la value sélectionnée pour le filtre
     const sortOption = this.value;
-    sortMedia(mediaContainer, sortOption);
+    // Récupération de tous nos médias
+    allMedia;
+    // Récupération d'un nouveau tableau des médias filtré par la value sélectionnée
+    let mediaSorted = sortMedia(allMedia, sortOption);
+
+    // ToDo : Vider les médias présents dans le DOM
+    mediaContainer.innerHTML = "";
+    mediaSorted.forEach((media) => {
+      let myFactoryMediaModel = mediaFactory(media, photographer);
+      const myMediaHtml = myFactoryMediaModel.getHtmlMedia();
+      mediaContainer.appendChild(myMediaHtml);
+    });
   });
 
-  function sortMedia(container, option) {
-    const mediaElements = Array.from(container.getElementsByClassName("media"));
-
-    mediaElements.sort(function (a, b) {
-      const valueA = getSortValue(a, option);
-      const valueB = getSortValue(b, option);
+  function sortMedia(allMediaToSort, option) {
+    let newMedia = allMediaToSort.sort((a, b) => {
+      const valueA = a[option];
+      const valueB = b[option];
 
       if (valueA < valueB) {
         return -1;
@@ -99,10 +110,7 @@ getInfos().then((infos) => {
         return 0;
       }
     });
-
-    mediaElements.forEach(function (mediaElement) {
-      container.appendChild(mediaElement);
-    });
+    return newMedia;
   }
 
   function getSortValue(element, option) {
@@ -111,8 +119,35 @@ getInfos().then((infos) => {
     } else if (option === "titre") {
       return element.querySelector(".title").textContent;
     } else if (option === "date") {
-      return element.querySelector(".date").textContent; //----------> Le classement par date ne fonctionne pas
+      return element.querySelector(".date").textContent; //
     }
+  }
+});
+
+// Gestion du menu déroulant personnalisé pour le tri des médias
+const selectedOption = document.querySelector(".selected-option");
+const optionsList = document.querySelector(".options-list");
+const sortOptions = document.querySelectorAll(".sort-option");
+
+selectedOption.addEventListener("click", () => {
+  optionsList.style.display =
+    optionsList.style.display === "none" ? "block" : "none";
+});
+
+sortOptions.forEach((option) => {
+  option.addEventListener("click", () => {
+    const selectedValue = option.getAttribute("data-value");
+    selectedOption.textContent = option.textContent;
+    optionsList.style.display = "none";
+
+    sortMedia(mediaContainer, selectedValue);
+  });
+});
+
+document.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!target.closest(".sort-container")) {
+    optionsList.style.display = "none";
   }
 });
 
@@ -123,7 +158,6 @@ function displayModal() {
     ".photographerInfo h2"
   ).textContent;
   const photographerNameElement = document.getElementById("photographer_name");
-
   photographerNameElement.textContent = photographerName;
 
   contactModal.style.display = "flex";
@@ -131,9 +165,9 @@ function displayModal() {
 
 function closeModal() {
   const contactModal = document.getElementById("contact_modal");
-  const modalContent = document.querySelector(".modal");
 
   /*  // Suppression du nom du photographe avant de fermer la modal
+  const modalContent = document.querySelector(".modal");
   modalContent.removeChild(modalContent.firstChild);
   */
   contactModal.style.display = "none";
