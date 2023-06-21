@@ -67,7 +67,7 @@ getInfos().then((infos) => {
   //Ajout de la div media-container à l'intérieur de l'élément main
   target.appendChild(mediaContainer);
 
-  // Ajout des fl^ches du carrousel
+  // Ajout des flèches du carrousel
   const carouselArrows = document.createElement("div");
   carouselArrows.classList.add("carousel-arrows");
   carouselArrows.innerHTML = `
@@ -78,27 +78,9 @@ getInfos().then((infos) => {
   // Ajout des flèches du carrousel après "media-container"
   target.appendChild(carouselArrows);
 
-  // Récupération de l'élément select et ajout d'un gestionnaire d'événements
-  const sortSelect = document.querySelector(".sort-select");
-  sortSelect.addEventListener("change", function () {
-    // Récupération de la value sélectionnée pour le filtre
-    const sortOption = this.value;
-    // Récupération de tous nos médias
-    allMedia;
-    // Récupération d'un nouveau tableau des médias filtré par la value sélectionnée
-    let mediaSorted = sortMedia(allMedia, sortOption);
-
-    // ToDo : Vider les médias présents dans le DOM
-    mediaContainer.innerHTML = "";
-    mediaSorted.forEach((media) => {
-      let myFactoryMediaModel = mediaFactory(media, photographer);
-      const myMediaHtml = myFactoryMediaModel.getHtmlMedia();
-      mediaContainer.appendChild(myMediaHtml);
-    });
-  });
-
-  function sortMedia(allMediaToSort, option) {
+  const sortMedia = (allMediaToSort, option) => {
     let newMedia = allMediaToSort.sort((a, b) => {
+      //const valueA = option === "date" ? new Date(a[option]) : a[option];
       const valueA = a[option];
       const valueB = b[option];
 
@@ -111,45 +93,48 @@ getInfos().then((infos) => {
       }
     });
     return newMedia;
-  }
+  };
 
-  function getSortValue(element, option) {
-    if (option === "popularite") {
-      return parseInt(element.querySelector(".like").textContent);
-    } else if (option === "titre") {
-      return element.querySelector(".title").textContent;
-    } else if (option === "date") {
-      return element.querySelector(".date").textContent; //
-    }
-  }
-});
+  const sortOptions = document.querySelectorAll(".sort-option");
+  const selectedOption = document.querySelector(".selected-option");
+  const optionsList = document.querySelector(".options-list");
 
-// Gestion du menu déroulant personnalisé pour le tri des médias
-const selectedOption = document.querySelector(".selected-option");
-const optionsList = document.querySelector(".options-list");
-const sortOptions = document.querySelectorAll(".sort-option");
+  selectedOption.addEventListener("click", () => {
+    optionsList.style.display =
+      optionsList.style.display === "none" ? "block" : "none";
+  });
 
-selectedOption.addEventListener("click", () => {
-  optionsList.style.display =
-    optionsList.style.display === "none" ? "block" : "none";
-});
+  sortOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      const selectedValue = option.getAttribute("data-value");
+      selectedOption.textContent = option.textContent;
+      optionsList.style.display = "none";
 
-sortOptions.forEach((option) => {
-  option.addEventListener("click", () => {
-    const selectedValue = option.getAttribute("data-value");
-    selectedOption.textContent = option.textContent;
-    optionsList.style.display = "none";
+      let mediaSorted = sortMedia(allMedia, selectedValue);
 
-    sortMedia(mediaContainer, selectedValue);
+      // Vider les médias présents dans le DOM
+      mediaContainer.innerHTML = "";
+      mediaSorted.forEach((media) => {
+        let myFactoryMediaModel = mediaFactory(media, photographer);
+        const myMediaHtml = myFactoryMediaModel.getHtmlMedia();
+        mediaContainer.appendChild(myMediaHtml);
+      });
+    });
   });
 });
 
 document.addEventListener("click", (event) => {
   const target = event.target;
   if (!target.closest(".sort-container")) {
-    optionsList.style.display = "none";
+    optionsList.style.display = "none"; // "toggleclass" Ajouter un classe à l'action du clique
   }
 });
+
+const button = document.getElementByClass("options-list");
+const buttonPressed = (e) => {
+  e.target.classList.toggle("active");
+};
+button.addEventListener("click", buttonPressed);
 
 //Gestion de la modal
 function displayModal() {

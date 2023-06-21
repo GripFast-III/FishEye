@@ -339,3 +339,8 @@ textarea {
     color: #901C1C;
     opacity: 1;
 }
+
+
+.active {
+    background:#32bacf;
+  }
