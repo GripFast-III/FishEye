@@ -67,14 +67,6 @@ getInfos().then((infos) => {
   //Ajout de la div media-container à l'intérieur de l'élément main
   target.appendChild(mediaContainer);
 
-  // Ajout des flèches du carrousel
-  const carouselArrows = document.createElement("div");
-  carouselArrows.classList.add("carousel-arrows");
-  carouselArrows.innerHTML = `
-    <div class="carousel-arrow carousel-arrow-left" onclick="prevMedia()"></div>
-    <div class="carousel-arrow carousel-arrow-right" onclick="nextMedia()"></div>
-  `;
-
   // Ajout des flèches du carrousel après "media-container"
   target.appendChild(carouselArrows);
 
@@ -98,10 +90,14 @@ getInfos().then((infos) => {
   const sortOptions = document.querySelectorAll(".sort-option");
   const selectedOption = document.querySelector(".selected-option");
   const optionsList = document.querySelector(".options-list");
+  optionsList.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
 
-  selectedOption.addEventListener("click", () => {
+  selectedOption.addEventListener("click", (event) => {
+    event.stopPropagation();
     optionsList.style.display =
-      optionsList.style.display === "none" ? "block" : "none";
+      optionsList.style.display === "block" ? "none" : "block"; // --> Erreur suspectée ! <-- // update : auparavant "none" ? "block" : "none";
   });
 
   sortOptions.forEach((option) => {
@@ -119,6 +115,9 @@ getInfos().then((infos) => {
         const myMediaHtml = myFactoryMediaModel.getHtmlMedia();
         mediaContainer.appendChild(myMediaHtml);
       });
+
+      // Ferme la liste des options après avoir effectué le tri
+      optionsList.style.display = "none";
     });
   });
 });
@@ -130,13 +129,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
-const button = document.getElementByClass("options-list");
-const buttonPressed = (e) => {
-  e.target.classList.toggle("active");
-};
-button.addEventListener("click", buttonPressed);
-
-//Gestion de la modal
+// Gestion de la modal de contact
 function displayModal() {
   const contactModal = document.getElementById("contact_modal");
   const photographerName = document.querySelector(
@@ -157,3 +150,12 @@ function closeModal() {
   */
   contactModal.style.display = "none";
 }
+
+//Gestion du carrousel du media
+// Ajout des flèches du carrousel
+const carouselArrows = document.createElement("div");
+carouselArrows.classList.add("carousel-arrows");
+carouselArrows.innerHTML = `
+  <div class="carousel-arrow carousel-arrow-left" onclick="prevMedia()"></div>
+  <div class="carousel-arrow carousel-arrow-right" onclick="nextMedia()"></div>
+`;

@@ -83,16 +83,20 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding: 10px;
+    padding-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
     color: white;
     background-color: #901C1C;
     border-radius: 4px;
     height: 3rem;
-    width: 120px;
+    width: 80px;
 }
 
 .fa-chevron-down {
-    margin-left: 15px;
+    position: absolute;
+    left: 75%;
 }
 
 .options-list {
@@ -339,7 +343,6 @@ textarea {
     color: #901C1C;
     opacity: 1;
 }
-
 
 .active {
     background:#32bacf;

@@ -5,10 +5,10 @@
       src="https://kit.fontawesome.com/76951b6d18.js"
       crossorigin="anonymous"
     ></script>
-    <scrip
+    <script
       src="https://fontawesome.com/icons/chevron-down?f=classic&s=solid"
       crossorigin="anonymous"
-    ></scrip>
+    ></script>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
@@ -36,7 +36,7 @@
           <div class="selected-option">
             ...<i class="fa-solid fa-chevron-down"></i>
           </div>
-          <ul class="options-list">
+          <ul class="options-list" id="options-list">
             <li class="sort-option" data-value="likes">Popularité</li>
             <li class="sort-option" data-value="title">Titre</li>
             <li class="sort-option" data-value="date">Date</li>
@@ -77,6 +77,10 @@
         </form>
       </div>
     </div>
+
+    <div id="carrousel"></div>
+    <i class="fa-solid fa-arrow-right" class="arrow_button" id="right"></i>
+    <i class="fa-solid fa-arrow-left" class="arrow_button" id="left"></i>
 
     <script src="scripts/factories/media.js"></script>
     <script src="scripts/utils/contactForm.js"></script>

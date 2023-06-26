@@ -3,27 +3,42 @@ function mediaFactory(media, photographer) {
 
   function getHtmlMedia() {
     let mediaElement = document.createElement(`div`);
-    mediaElement.classList.add("media"); //Ajout de la class "media" à chaque élement média
+    mediaElement.classList.add("media"); // Ajout de la class "media" à chaque élement média
 
     if (media.image) {
-      //Création de l'élément image
+      // Création de l'élément image
       let imageElement = document.createElement(`img`);
       imageElement.src = `./assets/images/${folderImage}/${media.image}`;
       imageElement.alt = media.title;
       imageElement.classList.add("media-image"); //Ajout d'une classe aux images/photos
 
-      //Ajout de l'élément image au mediaElement
+      /*
+      //Gestion du clic sur l'image pour ouvrir une modale
+      imageElement.addEventListener("click", () => {
+        createModal([allMedia]);
+      });
+      */
+
+      // Ajout de l'élément image au mediaElement
       mediaElement.appendChild(imageElement);
     } else if (media.video) {
       // Création de l'élément vidéo
       let videoElement = document.createElement(`video`);
       videoElement.src = `./assets/images/${folderImage}/${media.video}`;
       videoElement.controls = true;
-      videoElement.classList.add("media-video"); //Ajout d'une classe aux vidéos
+      videoElement.classList.add("media-video"); // Ajout d'une classe aux vidéos
 
-      //Ajout de l'élément vidéo au mediaElement
+      /*
+      // Gestion du clic sur la vidéo pour ouvrir une modale
+      videoElement.addEventListener("click", () => {
+        createModal([allMedia]);
+      });
+      */
+
+      // Ajout de l'élément vidéo au mediaElement
       mediaElement.appendChild(videoElement);
     }
+
     let titleElement = document.createElement(`section`);
     let templateTitleAndLike = `
     <div class="info">

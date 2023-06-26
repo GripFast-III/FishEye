@@ -53,11 +53,12 @@ h1 {
 .photographer_section article h4,
 .photographer_section article p {
     color: black;
+    font-size: 15px;
 }
 
 .photographer_section article h2 {
     color: #D3573C;
-    font-size: 36px;
+    font-size: 2rem;
 }
 
 .photographer_section article img {
