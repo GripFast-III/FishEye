@@ -1,43 +1,39 @@
 function mediaFactory(media, photographer) {
   let folderImage = photographer.name.split(" ")[0];
 
-  function getHtmlMedia() {
+  function getHtmlMedia(index) {
     let mediaElement = document.createElement(`div`);
     mediaElement.classList.add("media"); // Ajout de la class "media" à chaque élement média
+    let childElement = null;
 
     if (media.image) {
       // Création de l'élément image
-      let imageElement = document.createElement(`img`);
-      imageElement.src = `./assets/images/${folderImage}/${media.image}`;
-      imageElement.alt = media.title;
-      imageElement.classList.add("media-image"); //Ajout d'une classe aux images/photos
-
-      /*
-      //Gestion du clic sur l'image pour ouvrir une modale
-      imageElement.addEventListener("click", () => {
-        createModal([allMedia]);
-      });
-      */
-
-      // Ajout de l'élément image au mediaElement
-      mediaElement.appendChild(imageElement);
+      childElement = document.createElement(`img`);
+      childElement.src = `./assets/images/${folderImage}/${media.image}`;
+      childElement.alt = media.title;
+      childElement.classList.add("media-image"); //Ajout d'une classe aux images/photos
     } else if (media.video) {
       // Création de l'élément vidéo
-      let videoElement = document.createElement(`video`);
-      videoElement.src = `./assets/images/${folderImage}/${media.video}`;
-      videoElement.controls = true;
-      videoElement.classList.add("media-video"); // Ajout d'une classe aux vidéos
-
-      /*
-      // Gestion du clic sur la vidéo pour ouvrir une modale
-      videoElement.addEventListener("click", () => {
-        createModal([allMedia]);
-      });
-      */
-
-      // Ajout de l'élément vidéo au mediaElement
-      mediaElement.appendChild(videoElement);
+      childElement = document.createElement(`video`);
+      childElement.src = `./assets/images/${folderImage}/${media.video}`;
+      childElement.controls = true;
+      childElement.classList.add("media-video"); // Ajout d'une classe aux vidéos
     }
+    // Ajout de l'élément vidéo au mediaElement
+    mediaElement.appendChild(childElement);
+
+    // Gestion du clic pour ouvrir une modale
+    childElement.addEventListener("click", () => {
+      openModal(allMedia, index);
+      console.log(
+        "🚀 ~ file: media.js:29 ~ childElement.addEventListener ~ index:",
+        index
+      );
+      console.log(
+        "🚀 ~ file: media.js:29 ~ childElement.addEventListener ~ allMedia:",
+        allMedia
+      );
+    });
 
     let titleElement = document.createElement(`section`);
     let templateTitleAndLike = `

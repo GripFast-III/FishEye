@@ -58,9 +58,9 @@ getInfos().then((infos) => {
   const mediaContainer = document.createElement("div");
   mediaContainer.classList.add("media-container");
 
-  medias.forEach((media) => {
+  medias.forEach((media, i) => {
     let myFactoryMediaModel = mediaFactory(media, photographer);
-    const myMediaHtml = myFactoryMediaModel.getHtmlMedia();
+    const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i);
     mediaContainer.appendChild(myMediaHtml);
   });
 
@@ -122,13 +122,6 @@ getInfos().then((infos) => {
   });
 });
 
-document.addEventListener("click", (event) => {
-  const target = event.target;
-  if (!target.closest(".sort-container")) {
-    optionsList.style.display = "none"; // "toggleclass" Ajouter un classe à l'action du clique
-  }
-});
-
 // Gestion de la modal de contact
 function displayModal() {
   const contactModal = document.getElementById("contact_modal");
@@ -144,10 +137,6 @@ function displayModal() {
 function closeModal() {
   const contactModal = document.getElementById("contact_modal");
 
-  /*  // Suppression du nom du photographe avant de fermer la modal
-  const modalContent = document.querySelector(".modal");
-  modalContent.removeChild(modalContent.firstChild);
-  */
   contactModal.style.display = "none";
 }
 
@@ -159,3 +148,15 @@ carouselArrows.innerHTML = `
   <div class="carousel-arrow carousel-arrow-left" onclick="prevMedia()"></div>
   <div class="carousel-arrow carousel-arrow-right" onclick="nextMedia()"></div>
 `;
+
+//Gestion de la modal des médias
+const openModal = (infos, indexMedia) => {
+  let mediaSelected = infos[indexMedia];
+  const galleryModal = document.getElementById("gallery_modal");
+  const galleryModalCurrentImg = document.getElementById(
+    "gallery_modal_current_img"
+  );
+  galleryModalCurrentImg.src = `./assets/images/${folderImage}/${mediaSelected}`; // récupérer le chemin de folderImage : comment on obtient ça ?
+
+  galleryModal.style.display = "flex";
+};

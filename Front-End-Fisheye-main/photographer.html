@@ -77,10 +77,20 @@
         </form>
       </div>
     </div>
+    <div id="gallery_modal">
+      <div class="modal">
+        <img id="gallery_modal_current_img" onclick="closeGalleryModal()" />
+      </div>
+    </div>
 
-    <div id="carrousel"></div>
-    <i class="fa-solid fa-arrow-right" class="arrow_button" id="right"></i>
-    <i class="fa-solid fa-arrow-left" class="arrow_button" id="left"></i>
+    <div id="modal-medias">
+      <img class="cross" src="assets/icons/close.svg" onclick="closeModal()" />
+      <div id="carrousel">
+        <i class="fa-solid fa-arrow-right" class="arrow_button" id="right"></i>
+        <i class="fa-solid fa-arrow-left" class="arrow_button" id="left"></i>
+      </div>
+      <div id="media-container-carrousel"></div>
+    </div>
 
     <script src="scripts/factories/media.js"></script>
     <script src="scripts/utils/contactForm.js"></script>
