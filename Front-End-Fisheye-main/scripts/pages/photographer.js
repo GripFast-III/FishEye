@@ -72,7 +72,6 @@ getInfos().then((infos) => {
 
   const sortMedia = (allMediaToSort, option) => {
     let newMedia = allMediaToSort.sort((a, b) => {
-      //const valueA = option === "date" ? new Date(a[option]) : a[option];
       const valueA = a[option];
       const valueB = b[option];
 
@@ -97,7 +96,7 @@ getInfos().then((infos) => {
   selectedOption.addEventListener("click", (event) => {
     event.stopPropagation();
     optionsList.style.display =
-      optionsList.style.display === "block" ? "none" : "block"; // --> Erreur suspectée ! <-- // update : auparavant "none" ? "block" : "none";
+      optionsList.style.display === "block" ? "none" : "block";
   });
 
   sortOptions.forEach((option) => {
@@ -105,7 +104,6 @@ getInfos().then((infos) => {
       const selectedValue = option.getAttribute("data-value");
       selectedOption.textContent = option.textContent;
       optionsList.style.display = "none";
-
       let mediaSorted = sortMedia(allMedia, selectedValue);
 
       // Vider les médias présents dans le DOM
@@ -136,27 +134,33 @@ function displayModal() {
 
 function closeModal() {
   const contactModal = document.getElementById("contact_modal");
+  const galleryModal = document.getElementById("gallery_modal");
 
   contactModal.style.display = "none";
+  galleryModal.style.display = "none";
 }
 
-//Gestion du carrousel du media
-// Ajout des flèches du carrousel
-const carouselArrows = document.createElement("div");
-carouselArrows.classList.add("carousel-arrows");
-carouselArrows.innerHTML = `
-  <div class="carousel-arrow carousel-arrow-left" onclick="prevMedia()"></div>
-  <div class="carousel-arrow carousel-arrow-right" onclick="nextMedia()"></div>
-`;
-
 //Gestion de la modal des médias
-const openModal = (infos, indexMedia) => {
+const openModal = (infos, indexMedia, folderImage) => {
   let mediaSelected = infos[indexMedia];
+
   const galleryModal = document.getElementById("gallery_modal");
-  const galleryModalCurrentImg = document.getElementById(
-    "gallery_modal_current_img"
-  );
-  galleryModalCurrentImg.src = `./assets/images/${folderImage}/${mediaSelected}`; // récupérer le chemin de folderImage : comment on obtient ça ?
+  const targetModal = document.getElementById("gallery_modal_current_media");
+  targetModal.innerHTML = ""; // Enlève le contenu dans la modal
+  const childrenTargetModal = document.createElement("object");
+  childrenTargetModal.data = `./assets/images/${folderImage}/${
+    mediaSelected.image ? mediaSelected.image : mediaSelected.video
+  }`;
+  targetModal.append(childrenTargetModal);
+
+  //Gestion du carrousel du media
+  // Ajout des flèches du carrousel
+  const carouselArrows = document.createElement("div");
+  carouselArrows.classList.add("carousel-arrows");
+  carouselArrows.innerHTML = `
+    <div class="carousel-arrow carousel-arrow-left" onclick="prevMedia()"></div>
+    <div class="carousel-arrow carousel-arrow-right" onclick="nextMedia()"></div>
+  `;
 
   galleryModal.style.display = "flex";
 };

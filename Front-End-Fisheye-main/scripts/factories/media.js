@@ -11,12 +11,11 @@ function mediaFactory(media, photographer) {
       childElement = document.createElement(`img`);
       childElement.src = `./assets/images/${folderImage}/${media.image}`;
       childElement.alt = media.title;
-      childElement.classList.add("media-image"); //Ajout d'une classe aux images/photos
+      childElement.classList.add("media-image"); // Ajout d'une classe aux images/photos
     } else if (media.video) {
       // Création de l'élément vidéo
       childElement = document.createElement(`video`);
       childElement.src = `./assets/images/${folderImage}/${media.video}`;
-      childElement.controls = true;
       childElement.classList.add("media-video"); // Ajout d'une classe aux vidéos
     }
     // Ajout de l'élément vidéo au mediaElement
@@ -24,15 +23,7 @@ function mediaFactory(media, photographer) {
 
     // Gestion du clic pour ouvrir une modale
     childElement.addEventListener("click", () => {
-      openModal(allMedia, index);
-      console.log(
-        "🚀 ~ file: media.js:29 ~ childElement.addEventListener ~ index:",
-        index
-      );
-      console.log(
-        "🚀 ~ file: media.js:29 ~ childElement.addEventListener ~ allMedia:",
-        allMedia
-      );
+      openModal(allMedia, index, folderImage);
     });
 
     let titleElement = document.createElement(`section`);

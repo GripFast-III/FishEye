@@ -30,6 +30,7 @@
           Contactez-moi
         </button>
       </div>
+
       <div class="sort-container">
         <div class="sort-by">Trier par</div>
         <div class="sort-select">
@@ -77,18 +78,20 @@
         </form>
       </div>
     </div>
+
     <div id="gallery_modal">
       <div class="modal">
-        <img id="gallery_modal_current_img" onclick="closeGalleryModal()" />
+        <img
+          class="cross"
+          src="assets/icons/close.svg"
+          onclick="closeModal()"
+        />
+        <div id="gallery_modal_current_media"></div>
       </div>
     </div>
 
     <div id="modal-medias">
       <img class="cross" src="assets/icons/close.svg" onclick="closeModal()" />
-      <div id="carrousel">
-        <i class="fa-solid fa-arrow-right" class="arrow_button" id="right"></i>
-        <i class="fa-solid fa-arrow-left" class="arrow_button" id="left"></i>
-      </div>
       <div id="media-container-carrousel"></div>
     </div>
 
