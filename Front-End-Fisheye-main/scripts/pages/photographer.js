@@ -67,9 +67,6 @@ getInfos().then((infos) => {
   //Ajout de la div media-container à l'intérieur de l'élément main
   target.appendChild(mediaContainer);
 
-  // Ajout des flèches du carrousel après "media-container"
-  target.appendChild(carouselArrows);
-
   const sortMedia = (allMediaToSort, option) => {
     let newMedia = allMediaToSort.sort((a, b) => {
       const valueA = a[option];

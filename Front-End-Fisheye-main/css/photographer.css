@@ -83,10 +83,10 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding-left: 50px;
+    padding-left: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-right: 10px;
+    padding-right: 45px;
     color: white;
     background-color: #901C1C;
     border-radius: 4px;
@@ -338,4 +338,19 @@ textarea {
 
 object {
     width: 100%;
+}
+
+.sub-info {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 376px;
+    padding: 15px 20px;
+    background: #DB8876;
+    color: #000000;
+    font-size: 1.3em;
+    border-radius: 5px 5px 0 0;
+    z-index: 900;
 }

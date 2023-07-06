@@ -26,6 +26,7 @@ function mediaFactory(media, photographer) {
       openModal(allMedia, index, folderImage);
     });
 
+    // Ajout de code HTML pour afficher le titre et le nombre de likes
     let titleElement = document.createElement(`section`);
     let templateTitleAndLike = `
     <div class="info">
