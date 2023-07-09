@@ -31,103 +31,98 @@ async function getInfos() {
     }
   } catch (err) {
     console.log("oups", err);
+
+    return null;
   }
 }
 
 getInfos().then((infos) => {
-  const { photographer, medias } = infos;
-  allMedia = medias;
-  let target = document.getElementById("main");
-  let photographHeader = document.querySelector(".photograph-header");
+  if (infos) {
+    const { photographer, medias } = infos;
+    allMedia = medias;
+    let target = document.getElementById("main");
+    let photographHeader = document.querySelector(".photograph-header");
 
-  // Calcul du total des likes
-  /*let totalLikes = 0;
-  currentM.forEach((mediaItem) => {
-    totalLikes += mediaItem.likes;
-  });*/
+    const infoPhotographer = `
+    <div class="photographerInfo">
+    <h2>${photographer.name}</h2>
+    <h3>${photographer.city}</h3>
+    <h4>${photographer.tagline}</h4>
+    </div>`;
 
-  const infoPhotographer = `
-  <div class="photographerInfo">
-   <h2>${photographer.name}</h2>
-   <h3>${photographer.city}</h3>
-   <h4>${photographer.tagline}</h4>
-  </div>`;
+    const picPhotographer = `
+    <div class="photographerPortrait">
+    <img class="photobooth" src="assets/images/photographers/${photographer.portrait}" alt="${photographer.name}">
+    </div>`;
+    photographHeader.insertAdjacentHTML("afterbegin", infoPhotographer);
+    photographHeader.insertAdjacentHTML("beforeend", picPhotographer);
 
-  const picPhotographer = `
-  <div class="photographerPortrait">
-   <img class="photobooth" src="assets/images/photographers/${photographer.portrait}" alt="${photographer.name}">
-  </div>`;
-  photographHeader.insertAdjacentHTML("afterbegin", infoPhotographer);
-  photographHeader.insertAdjacentHTML("beforeend", picPhotographer);
+    //Création de la div media-container
+    const mediaContainer = document.createElement("div");
+    mediaContainer.classList.add("media-container");
 
-  //Création de la div media-container
-  const mediaContainer = document.createElement("div");
-  mediaContainer.classList.add("media-container");
-
-  medias.forEach((media, i) => {
-    let myFactoryMediaModel = mediaFactory(media, photographer);
-    const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, medias);
-    mediaContainer.appendChild(myMediaHtml);
-  });
-
-  //Ajout de la div media-container à l'intérieur de l'élément main
-  target.appendChild(mediaContainer);
-
-  const sortMedia = (allMediaToSort, option) => {
-    let newMedia = allMediaToSort.sort((a, b) => {
-      const valueA = a[option];
-      const valueB = b[option];
-
-      if (valueA < valueB) {
-        return -1;
-      } else if (valueA > valueB) {
-        return 1;
-      } else {
-        return 0;
-      }
+    medias.forEach((media, i) => {
+      let myFactoryMediaModel = mediaFactory(media, photographer);
+      const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, medias);
+      mediaContainer.appendChild(myMediaHtml);
     });
-    return newMedia;
-  };
 
-  const sortOptions = document.querySelectorAll(".sort-option");
-  const selectedOption = document.querySelector(".selected-option");
-  const optionsList = document.querySelector(".options-list");
-  optionsList.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
+    //Ajout de la div media-container à l'intérieur de l'élément main
+    target.appendChild(mediaContainer);
 
-  selectedOption.addEventListener("click", (event) => {
-    event.stopPropagation();
-    optionsList.style.display =
-      optionsList.style.display === "block" ? "none" : "block";
-  });
+    const sortMedia = (allMediaToSort, option) => {
+      let newMedia = allMediaToSort.sort((a, b) => {
+        const valueA = a[option];
+        const valueB = b[option];
 
-  sortOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      const selectedValue = option.getAttribute("data-value");
-      selectedOption.textContent = option.textContent;
-      optionsList.style.display = "none";
-      let mediaSorted = sortMedia(allMedia, selectedValue);
-
-      // Vider les médias présents dans le DOM
-      mediaContainer.innerHTML = "";
-      mediaSorted.forEach((media) => {
-        let myFactoryMediaModel = mediaFactory(media, photographer);
-        const myMediaHtml = myFactoryMediaModel.getHtmlMedia();
-        mediaContainer.appendChild(myMediaHtml);
+        if (valueA < valueB) {
+          return -1;
+        } else if (valueA > valueB) {
+          return 1;
+        } else {
+          return 0;
+        }
       });
+      return newMedia;
+    };
 
-      // Ferme la liste des options après avoir effectué le tri
-      optionsList.style.display = "none";
+    const sortOptions = document.querySelectorAll(".sort-option");
+    const selectedOption = document.querySelector(".selected-option");
+    const optionsList = document.querySelector(".options-list");
+    optionsList.addEventListener("click", (event) => {
+      event.stopPropagation();
     });
-  });
 
-  /*
-  // Met à jour le contenu de la div avec l'id "total-likes"
-  document.getElementById("total-likes").innerHTML = `
-    <span class="like-quantity">${totalLikes}</span>
-    <div class="fas fa-heart" aria-hidden="true"></div>
-  `;*/
+    selectedOption.addEventListener("click", (event) => {
+      event.stopPropagation();
+      optionsList.style.display =
+        optionsList.style.display === "block" ? "none" : "block";
+    });
+
+    sortOptions.forEach((option) => {
+      option.addEventListener("click", () => {
+        const selectedValue = option.getAttribute("data-value");
+        selectedOption.textContent = option.textContent;
+        optionsList.style.display = "none";
+        let mediaSorted = sortMedia(allMedia, selectedValue);
+
+        // Vider les médias présents dans le DOM
+        mediaContainer.innerHTML = "";
+        mediaSorted.forEach((media) => {
+          let myFactoryMediaModel = mediaFactory(media, photographer);
+          const myMediaHtml = myFactoryMediaModel.getHtmlMedia();
+          mediaContainer.appendChild(myMediaHtml);
+        });
+
+        // Ferme la liste des options après avoir effectué le tri
+        optionsList.style.display = "none";
+      });
+    });
+  } else {
+    // Si l'id n'est pas valide cela affichera un message d'erreur
+    const target = document.getElementById("main");
+    target.innerHTML = "<p>Oups, la page que vous recherchez n'existe pas.</p>";
+  }
 });
 
 // Gestion de la modal de contact

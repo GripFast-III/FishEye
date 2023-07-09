@@ -87,6 +87,16 @@
           onclick="closeModal()"
         />
         <div id="gallery_modal_current_media"></div>
+        <div class="carousel-arrows">
+          <div
+            class="carousel-arrow carousel-arrow-left"
+            onclick="prevMedia()"
+          ></div>
+          <div
+            class="carousel-arrow carousel-arrow-right"
+            onclick="nextMedia()"
+          ></div>
+        </div>
       </div>
     </div>
 
@@ -94,17 +104,6 @@
       <img class="cross" src="assets/icons/close.svg" onclick="closeModal()" />
       <div id="media-container-carrousel"></div>
     </div>
-
-    <!-- <div class="sub-info footer">
-      <div id="total-likes" class="sub-info__likes">
-        <span class="like-quantity">???</span>
-        <div class="fas fa-heart" aria-hidden="true"></div>
-      </div>
-
-      <div class="sub-info__price">
-        <span id="price" class="price">??? €/jour</span>
-      </div>
-    </div> -->
 
     <script src="scripts/factories/media.js"></script>
     <script src="scripts/utils/contactForm.js"></script>
