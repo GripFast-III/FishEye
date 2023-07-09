@@ -159,7 +159,7 @@ const openModal = (infos, indexMedia, folderImage) => {
   }`;
   targetModal.append(childrenTargetModal);
 
-  //Gestion du carrousel du media
+  //Gestion du carousel du media
   // Ajout des flèches du carrousel
   const carouselArrows = document.createElement("div");
   carouselArrows.classList.add("carousel-arrows");
