@@ -40,6 +40,12 @@ getInfos().then((infos) => {
   let target = document.getElementById("main");
   let photographHeader = document.querySelector(".photograph-header");
 
+  // Calcul du total des likes
+  /*let totalLikes = 0;
+  currentM.forEach((mediaItem) => {
+    totalLikes += mediaItem.likes;
+  });*/
+
   const infoPhotographer = `
   <div class="photographerInfo">
    <h2>${photographer.name}</h2>
@@ -60,7 +66,7 @@ getInfos().then((infos) => {
 
   medias.forEach((media, i) => {
     let myFactoryMediaModel = mediaFactory(media, photographer);
-    const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i);
+    const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, medias);
     mediaContainer.appendChild(myMediaHtml);
   });
 
@@ -115,6 +121,13 @@ getInfos().then((infos) => {
       optionsList.style.display = "none";
     });
   });
+
+  /*
+  // Met à jour le contenu de la div avec l'id "total-likes"
+  document.getElementById("total-likes").innerHTML = `
+    <span class="like-quantity">${totalLikes}</span>
+    <div class="fas fa-heart" aria-hidden="true"></div>
+  `;*/
 });
 
 // Gestion de la modal de contact
@@ -129,6 +142,7 @@ function displayModal() {
   contactModal.style.display = "flex";
 }
 
+// Gestion de la fermeture des modals
 function closeModal() {
   const contactModal = document.getElementById("contact_modal");
   const galleryModal = document.getElementById("gallery_modal");

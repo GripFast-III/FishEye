@@ -1,7 +1,9 @@
+//let totalLikes = 0; // Le nombre de likes de base est de 0 et changera selon le photographe
+
 function mediaFactory(media, photographer) {
   let folderImage = photographer.name.split(" ")[0];
 
-  function getHtmlMedia(index) {
+  function getHtmlMedia(index, medias) {
     let mediaElement = document.createElement(`div`);
     mediaElement.classList.add("media"); // Ajout de la class "media" à chaque élement média
     let childElement = null;
@@ -43,6 +45,29 @@ function mediaFactory(media, photographer) {
     `;
     titleElement.innerHTML = templateTitleAndLike;
     mediaElement.appendChild(titleElement);
+
+    //totalLikes += media.likes;
+
+    // Met le contenu de la div avec l'id "total-likes" à jour
+    let totalLikes = 0;
+    medias.forEach((mediaItem) => {
+      totalLikes += mediaItem.likes;
+    });
+
+    mediaElement.insertAdjacentHTML(
+      "beforeend",
+      `
+      <div class="sub-info footer">
+        <div id="total-likes" class="sub-info__likes">
+          <span class="like-quantity">${totalLikes}</span>
+          <div class="fas fa-heart" aria-hidden="true"></div>
+        </div>
+        <div class="sub-info__price">
+          <span id="price" class="price">${photographer.price} €/jour</span>
+        </div>
+      </div>
+    `
+    );
     return mediaElement;
   }
 
