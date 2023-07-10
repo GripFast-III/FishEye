@@ -46,8 +46,6 @@ function mediaFactory(media, photographer) {
     titleElement.innerHTML = templateTitleAndLike;
     mediaElement.appendChild(titleElement);
 
-    //totalLikes += media.likes;
-
     // Met le contenu de la div avec l'id "total-likes" à jour
     let totalLikes = 0;
     medias.forEach((mediaItem) => {
