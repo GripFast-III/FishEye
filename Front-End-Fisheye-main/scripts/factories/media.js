@@ -1,5 +1,3 @@
-//let totalLikes = 0; // Le nombre de likes de base est de 0 et changera selon le photographe
-
 function mediaFactory(media, photographer) {
   let folderImage = photographer.name.split(" ")[0];
 

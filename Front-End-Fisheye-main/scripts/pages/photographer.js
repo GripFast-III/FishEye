@@ -19,10 +19,14 @@ async function getInfos() {
         let currentM = photographersResponse.media.filter((mediaItem) => {
           return mediaItem.photographerId == currentPhotographerId;
         });
-        return {
-          medias: currentM,
-          photographer: currentP[0],
-        };
+        if (currentM.length && currentP.length) {
+          return {
+            medias: currentM,
+            photographer: currentP[0],
+          };
+        } else {
+          throw new Error("l'ID est erroné");
+        }
       } else {
         throw new Error("Impossible de trouver les photographes du fichier");
       }
@@ -32,12 +36,13 @@ async function getInfos() {
   } catch (err) {
     console.log("oups", err);
 
-    return null;
+    return err;
   }
 }
 
-getInfos().then((infos) => {
-  if (infos) {
+getInfos()
+  .then((infos) => {
+    //if (infos) {
     const { photographer, medias } = infos;
     allMedia = medias;
     let target = document.getElementById("main");
@@ -118,12 +123,18 @@ getInfos().then((infos) => {
         optionsList.style.display = "none";
       });
     });
-  } else {
-    // Si l'id n'est pas valide cela affichera un message d'erreur
+    //}
+
+    /*else {
+
+  }*/
+  })
+  .catch((err) => {
+    console.log("error getInfos details", err);
+    // Si l'URL n'est pas valide cela affichera un message d'erreur
     const target = document.getElementById("main");
     target.innerHTML = "<p>Oups, la page que vous recherchez n'existe pas.</p>";
-  }
-});
+  });
 
 // Gestion de la modal de contact
 function displayModal() {
