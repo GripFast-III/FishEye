@@ -86,16 +86,14 @@
           src="assets/icons/close.svg"
           onclick="closeModal()"
         />
-        <div id="gallery_modal_current_media"></div>
-        <div class="carousel-arrows">
-          <div
-            class="carousel-arrow carousel-arrow-left"
-            onclick="prevMedia()"
-          ></div>
-          <div
-            class="carousel-arrow carousel-arrow-right"
-            onclick="nextMedia()"
-          ></div>
+        <div class="carousel">
+          <div class="carousel-arrow-left">
+            <i class="fa-solid fa-angle-left" onclick="prevMedia()"></i>
+          </div>
+          <div id="gallery_modal_current_media"></div>
+          <div class="carousel-arrow-right">
+            <i class="fa-solid fa-angle-right" onclick="nextMedia()"></i>
+          </div>
         </div>
       </div>
     </div>

@@ -123,11 +123,6 @@ getInfos()
         optionsList.style.display = "none";
       });
     });
-    //}
-
-    /*else {
-
-  }*/
   })
   .catch((err) => {
     console.log("error getInfos details", err);
@@ -169,15 +164,6 @@ const openModal = (infos, indexMedia, folderImage) => {
     mediaSelected.image ? mediaSelected.image : mediaSelected.video
   }`;
   targetModal.append(childrenTargetModal);
-
-  //Gestion du carousel du media
-  // Ajout des flèches du carrousel
-  const carouselArrows = document.createElement("div");
-  carouselArrows.classList.add("carousel-arrows");
-  carouselArrows.innerHTML = `
-    <div class="carousel-arrow carousel-arrow-left" onclick="prevMedia()"></div>
-    <div class="carousel-arrow carousel-arrow-right" onclick="nextMedia()"></div>
-  `;
 
   galleryModal.style.display = "flex";
 };
