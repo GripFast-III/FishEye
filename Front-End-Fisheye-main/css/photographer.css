@@ -156,7 +156,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 5px;
-    /*background-color: #DB8876;*/
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -351,6 +350,7 @@ textarea {
 
 object {
     width: 100%;
+    z-index: 9999;
 }
 
 .sub-info {
@@ -372,6 +372,9 @@ object {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 40rem;
 }
 
 .carousel-arrows {
@@ -397,4 +400,41 @@ object {
 
 .fa-angle-right {
     margin-left: 30px;
+}
+
+#gallery_modal_current_media {
+    width: 40%;
+    height: 50%;
+    margin: auto;
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+    overflow: auto;
+}
+
+object {
+    max-width: 100%;
+}
+
+.cross-media {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    width: 25px;
+    height: 35px;
+    cursor: pointer;
+}
+
+.message-error {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.message {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }

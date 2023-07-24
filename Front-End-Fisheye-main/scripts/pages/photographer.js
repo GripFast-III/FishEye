@@ -3,6 +3,8 @@ const searchParams = new URLSearchParams(paramsString);
 let currentPhotographerId = searchParams.get("id");
 console.log("idPhotographer :", currentPhotographerId);
 let allMedia = [];
+let currentMediaIndex = 0;
+const mediaCount = allMedia.length;
 
 async function getInfos() {
   try {
@@ -42,7 +44,6 @@ async function getInfos() {
 
 getInfos()
   .then((infos) => {
-    //if (infos) {
     const { photographer, medias } = infos;
     allMedia = medias;
     let target = document.getElementById("main");
@@ -72,10 +73,14 @@ getInfos()
       mediaContainer.appendChild(myMediaHtml);
     });
 
-    //Ajout de la div media-container à l'intérieur de l'élément main
+    // Ajout de la div media-container à l'intérieur de l'élément main
     target.appendChild(mediaContainer);
 
     const sortMedia = (allMediaToSort, option) => {
+      console.log(
+        "🚀 ~ file: photographer.js:80 ~ sortMedia ~ sortMedia:",
+        sortMedia
+      );
       let newMedia = allMediaToSort.sort((a, b) => {
         const valueA = a[option];
         const valueB = b[option];
@@ -92,8 +97,20 @@ getInfos()
     };
 
     const sortOptions = document.querySelectorAll(".sort-option");
+    console.log(
+      "🚀 ~ file: photographer.js:97 ~ .then ~ sortOptions:",
+      sortOptions
+    );
     const selectedOption = document.querySelector(".selected-option");
+    console.log(
+      "🚀 ~ file: photographer.js:99 ~ .then ~ selectedOption:",
+      selectedOption
+    );
     const optionsList = document.querySelector(".options-list");
+    console.log(
+      "🚀 ~ file: photographer.js:101 ~ .then ~ optionsList:",
+      optionsList
+    );
     optionsList.addEventListener("click", (event) => {
       event.stopPropagation();
     });
@@ -107,6 +124,10 @@ getInfos()
     sortOptions.forEach((option) => {
       option.addEventListener("click", () => {
         const selectedValue = option.getAttribute("data-value");
+        console.log(
+          "🚀 ~ file: photographer.js:115 ~ option.addEventListener ~ selectedValue:",
+          selectedValue
+        );
         selectedOption.textContent = option.textContent;
         optionsList.style.display = "none";
         let mediaSorted = sortMedia(allMedia, selectedValue);
@@ -128,7 +149,12 @@ getInfos()
     console.log("error getInfos details", err);
     // Si l'URL n'est pas valide cela affichera un message d'erreur
     const target = document.getElementById("main");
-    target.innerHTML = "<p>Oups, la page que vous recherchez n'existe pas.</p>";
+    target.innerHTML = `
+    <div class="message-error">
+      <p class="message">Oups, la page que vous recherchez n'existe pas.
+        <img class="gif" src="./assets/images/nedry-no.gif" alt="Non, non, non">
+      </p>
+    </div>`;
   });
 
 // Gestion de la modal de contact
@@ -154,16 +180,60 @@ function closeModal() {
 
 //Gestion de la modal des médias
 const openModal = (infos, indexMedia, folderImage) => {
+  currentMediaIndex = indexMedia;
   let mediaSelected = infos[indexMedia];
+  let containerArrows = document.createElement("div");
+  containerArrows.classList.add("carousel");
+  containerArrows.innerHTML = `
+    <img class="cross-media" src="assets/icons/close.svg" onclick="closeModal()" />
+    <div class="carousel-arrow-left">
+      <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderImage}')"></i>
+    </div>
+    <div class="carousel-arrow-right">
+      <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderImage}')"></i>
+    </div>
+    `;
 
   const galleryModal = document.getElementById("gallery_modal");
+  const modalHtml = gallery_modal.querySelector(".modal");
+  modalHtml.innerHTML = ""; // Enlève le contenu dans la modal
   const targetModal = document.getElementById("gallery_modal_current_media");
-  targetModal.innerHTML = ""; // Enlève le contenu dans la modal
+  targetModal.innerHTML = "";
   const childrenTargetModal = document.createElement("object");
   childrenTargetModal.data = `./assets/images/${folderImage}/${
     mediaSelected.image ? mediaSelected.image : mediaSelected.video
   }`;
   targetModal.append(childrenTargetModal);
-
-  galleryModal.style.display = "flex";
+  modalHtml.append(containerArrows);
+  galleryModal.style.display = "block";
 };
+
+//Gestion des fonctions précédentes et suivantes pour le carousel des medias
+function prevMedia(folder) {
+  let prevIndex = currentMediaIndex - 1;
+  if (prevIndex < 0) {
+    prevIndex = allMedia.length - 1;
+  }
+  currentMediaIndex = prevIndex;
+  updateMedia(folder, prevIndex);
+}
+
+function nextMedia(folder) {
+  let nextIndex = currentMediaIndex + 1;
+  if (nextIndex >= allMedia.length) {
+    nextIndex = 0;
+  }
+  currentMediaIndex = nextIndex;
+  updateMedia(folder, nextIndex);
+}
+
+function updateMedia(folderMedia, newMediaIndex) {
+  const mediaSelected = allMedia[newMediaIndex];
+  const targetModal = document.getElementById("gallery_modal_current_media");
+  targetModal.innerHTML = ""; // Enlève le contenu dans la modal
+  const childrenTargetModal = document.createElement("object");
+  childrenTargetModal.data = `./assets/images/${folderMedia}/${
+    mediaSelected.image ? mediaSelected.image : mediaSelected.video
+  }`;
+  targetModal.appendChild(childrenTargetModal);
+}

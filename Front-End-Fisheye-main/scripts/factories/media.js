@@ -46,7 +46,8 @@ function mediaFactory(media, photographer) {
 
     // Met le contenu de la div avec l'id "total-likes" à jour
     let totalLikes = 0;
-    medias.forEach((mediaItem) => {
+    allMedia.forEach((mediaItem) => {
+      //<--"medias" n'est pas reconnu dans la consol et le filtre de tri ne fonctionnera pas
       totalLikes += mediaItem.likes;
     });
 
