@@ -72,6 +72,32 @@ getInfos()
       const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, medias);
       mediaContainer.appendChild(myMediaHtml);
     });
+    // Met le contenu de la div avec l'id "total-likes" à jour
+    // let totalLikes = 0;
+    // allMedia.forEach((mediaItem) => {
+    //   totalLikes += mediaItem.likes;
+    // });
+    const updateTotal = (mediasToTotal) => {
+      return mediasToTotal.reduce(
+        (initvalue, media) => media.likes + initvalue,
+        0
+      );
+    };
+    let totalLikes = updateTotal(medias);
+    mediaContainer.insertAdjacentHTML(
+      "beforeend",
+      `
+      <div class="sub-info footer">
+        <div id="total-likes" class="sub-info__likes">
+          <span class="like-quantity">${totalLikes}</span>
+          <div class="fas fa-heart" aria-hidden="true"></div>
+        </div>
+        <div class="sub-info__price">
+          <span id="price" class="price">${photographer.price} €/jour</span>
+        </div>
+      </div>
+    `
+    );
 
     // Ajout de la div media-container à l'intérieur de l'élément main
     target.appendChild(mediaContainer);
@@ -97,20 +123,11 @@ getInfos()
     };
 
     const sortOptions = document.querySelectorAll(".sort-option");
-    console.log(
-      "🚀 ~ file: photographer.js:97 ~ .then ~ sortOptions:",
-      sortOptions
-    );
+
     const selectedOption = document.querySelector(".selected-option");
-    console.log(
-      "🚀 ~ file: photographer.js:99 ~ .then ~ selectedOption:",
-      selectedOption
-    );
+
     const optionsList = document.querySelector(".options-list");
-    console.log(
-      "🚀 ~ file: photographer.js:101 ~ .then ~ optionsList:",
-      optionsList
-    );
+
     optionsList.addEventListener("click", (event) => {
       event.stopPropagation();
     });
@@ -187,7 +204,7 @@ const openModal = (infos, indexMedia, folderImage) => {
     <div class="carousel-arrow-right">
       <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderImage}')"></i>
     </div>
-    `;
+  `;
 
   const galleryModal = document.getElementById("gallery_modal");
   const modalHtml = gallery_modal.querySelector(".modal");
@@ -233,43 +250,92 @@ function updateMedia(folderMedia, newMediaIndex) {
   targetModal.appendChild(childrenTargetModal);
 }
 
-function toggleLike(likes, id, isChecked, heartButton) {
+function toggleLike(id) {
+  let currentEl = document.querySelector(`.likeAndHeart[data-id="${id}"]`);
+  let likes = currentEl.querySelector(`.likesValueJs`).textContent;
+  let isCheckedHTML = currentEl.querySelector(`.heart`);
+
   console.log(
-    "🚀 ~ file: photographer.js:237 ~ toggleLike ~ isChecked:",
+    "🚀 ~ file: photographer.js:258 ~ toggleLike ~ isCheckedHTML:",
+    isCheckedHTML
+  );
+  console.log("🚀 ~ file: photographer.js:257 ~ toggleLike ~ likes:", likes);
+  let likesCountMedia = parseInt(likes); // parseInt convertit la chaîne de caractères en un nombre entier.
+  console.log("🚀 ~ file: photographer.js:258 ~ toggleLike ~ id:", id);
+  let isChecked = isCheckedHTML.dataset.liked;
+  console.log(
+    "🚀 ~ file: photographer.js:261 ~ toggleLike ~ isChecked:",
     isChecked
   );
-  console.log("🚀 ~ file: photographer.js:237 ~ toggleLike ~ id:", id);
-  console.log("🚀 ~ file: photographer.js:237 ~ toggleLike ~ likes:", likes);
-
-  let likesCount = parseInt(likes); // parseInt convertit la chaîne de caractères en un nombre entier.
-
-  // Sélectionner les icônes de cœur à partir de heartButton
-  const uncheckedHeart = heartButton.querySelector(".unchecked");
-  const checkedHeart = heartButton.querySelector(".checked");
-
-  if (isChecked) {
-    likesCount--; // Soustrait un like si l'utilisateur a déjà aimé tel média
-    checkedHeart.style.display = "none";
-    uncheckedHeart.style.display = "inline";
+  console.log(
+    "🚀 ~ file: photographer.js:261 ~ toggleLike ~ currentEl:",
+    currentEl
+  );
+  let newTemplate;
+  if (isChecked === "no") {
+    console.log("pas liké");
+    let newLikesCountMedia = likesCountMedia + 1;
+    newTemplate = `
+    
+      <div class="likes"><span class="likesValueJs">${newLikesCountMedia}</span>
+        <button class="heart" data-liked="yes" data-id="${id}">
+          <i class="fas fa-heart checked" aria-hidden="true"></i>
+        </button>
+      </div>
+    `;
   } else {
-    likesCount++; // Ajoute un like si l'utilisateur n'a pas encore aimé tel média
-    uncheckedHeart.style.display = "none";
-    checkedHeart.style.display = "inline";
+    console.log(" liké");
+
+    let newLikesCountMedia = likesCountMedia - 1;
+    newTemplate = `
+      <div class="likes"><span class="likesValueJs">${newLikesCountMedia}</span>
+        <button class="heart" data-liked="no" data-id="${id}">
+          <i class="far fa-heart checked" aria-hidden="true"></i>
+        </button>
+      </div>
+    `;
   }
+  currentEl.innerHTML = "";
+  currentEl.innerHTML = newTemplate;
+  // Sélectionner les icônes de cœur à partir de heartButton
+  // const uncheckedHeart = heartButton.querySelector(".unchecked");
+  // const checkedHeart = heartButton.querySelector(".checked");
+
+  // if (!!isLiked) {
+  //   console.log("pas liké")
+  //   let currentEl = document.querySelector(`.likeAndHeart[data-id="${id}"]`)
+  //   // heartButton.dataset.liked = true
+  //   console.log("🚀 ~ file: photographer.js:271 ~ toggleLike ~ likesCountMedia:", likesCountMedia + 1 )
+  //   let newLikesCountMedia = likesCountMedia + 1
+  //   currentEl.innerHTML = ''
+  //   let newTemplate = `<div class="likes">${newLikesCountMedia}
+  //     <button class="heart" data-id="${id}">
+  //       <i class="fas fa-heart checked" aria-hidden="true"></i>
+  //     </button>
+  //   </div>`
+  //   currentEl.innerHTML = newTemplate
+  // uncheckedHeart.style.display = "none";
+  // checkedHeart.style.display = "inline";
+  // } else {
+  //   console.log("deja liké")
+  //   likesCountMedia--; // Soustrait un like si l'utilisateur a déjà aimé tel média
+  //   // checkedHeart.style.display = "none";
+  //   // uncheckedHeart.style.display = "inline";
+  // }
 
   // Met à jour le nombre de likes dans l'élément DOM approprié
-  const likesElement = heartButton.parentElement.querySelector(".likes");
-  likesElement.textContent = likesCount;
-  console.log(
-    "🚀 ~ file: photographer.js:263 ~ toggleLike ~ likesElement:",
-    likesElement
-  );
+  // const likesElement = heartButton.parentElement.querySelector(".likes");
+  // likesElement.textContent = likesCount;
+  // console.log(
+  //   "🚀 ~ file: photographer.js:263 ~ toggleLike ~ likesElement:",
+  //   likesElement
+  // );
 
   // Met à jour le nombre de likes dans l'élément <span class="like-quantity">
-  const likeQuantityElement = document.querySelector(".like-quantity");
-  likeQuantityElement.textContent = likesCount;
-  console.log(
-    "🚀 ~ file: photographer.js:267 ~ toggleLike ~ likesCount:",
-    likesCount
-  );
+  // const likeQuantityElement = document.querySelector(".like-quantity");
+  // likeQuantityElement.textContent = likesCount;
+  // console.log(
+  //   "🚀 ~ file: photographer.js:267 ~ toggleLike ~ likesCount:",
+  //   likesCount
+  // );
 }

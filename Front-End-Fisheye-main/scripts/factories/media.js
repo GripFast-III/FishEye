@@ -29,13 +29,12 @@ function mediaFactory(media, photographer) {
     // Ajout de code HTML pour afficher le titre et le nombre de likes
     let titleElement = document.createElement(`section`);
     let templateTitleAndLike = `
-      <div class="info">
+      <div class="info" onclick="toggleLike('${media.id}')" >
         <div class="title">${media.title}</div>
-        <div class="likeAndHeart" onclick="toggleLike('${media.likes}', '${media.id}', false, this)">
-          <div class="likes">${media.likes}
-            <button class="heart" data-id="${media.id}">
+        <div class="likeAndHeart"  data-id="${media.id}">
+          <div class="likes"><span class="likesValueJs">${media.likes}</span>
+            <button class="heart" data-liked="no" data-id="${media.id}">
               <i class="far fa-heart unchecked" aria-hidden="true"></i>
-              <i class="fas fa-heart checked" aria-hidden="true"></i>
             </button>
           </div>
         </div>
@@ -43,28 +42,6 @@ function mediaFactory(media, photographer) {
     `;
     titleElement.innerHTML = templateTitleAndLike;
     mediaElement.appendChild(titleElement);
-
-    // Met le contenu de la div avec l'id "total-likes" à jour
-    let totalLikes = 0;
-    allMedia.forEach((mediaItem) => {
-      totalLikes += mediaItem.likes;
-    });
-
-    mediaElement.insertAdjacentHTML(
-      "beforeend",
-      `
-      <div class="sub-info footer">
-        <div id="total-likes" class="sub-info__likes">
-          <span class="like-quantity">${totalLikes}</span>
-          <div class="fas fa-heart" aria-hidden="true"></div>
-        </div>
-        <div class="sub-info__price">
-          <span id="price" class="price">${photographer.price} €/jour</span>
-        </div>
-      </div>
-    `
-    );
-
     return mediaElement;
   }
 
