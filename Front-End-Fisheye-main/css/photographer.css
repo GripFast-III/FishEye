@@ -322,7 +322,7 @@ textarea {
     font-size: 1rem;
 }
 
-  .unchecked:hover {
+.unchecked:hover {
     cursor: pointer;
     opacity: 0;
     transition: 0.25s;

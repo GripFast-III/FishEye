@@ -1,7 +1,7 @@
 function mediaFactory(media, photographer) {
   let folderImage = photographer.name.split(" ")[0];
 
-  function getHtmlMedia(index, medias) {
+  function getHtmlMedia(index) {
     let mediaElement = document.createElement(`div`);
     mediaElement.classList.add("media"); // Ajout de la class "media" à chaque élement média
     let childElement = null;
@@ -29,17 +29,17 @@ function mediaFactory(media, photographer) {
     // Ajout de code HTML pour afficher le titre et le nombre de likes
     let titleElement = document.createElement(`section`);
     let templateTitleAndLike = `
-    <div class="info">
-     <div class="title">${media.title}</div>
-     <div class="likeAndHeart">
-      <div class="likes">${media.likes}
-      <button class="heart">
-       <i class="far fa-heart unchecked" aria-hidden="true"></i>
-       <i class="fas fa-heart checked" aria-hidden="true"></i>
-      </button>
+      <div class="info">
+        <div class="title">${media.title}</div>
+        <div class="likeAndHeart" onclick="toggleLike('${media.likes}', '${media.id}', false, this)">
+          <div class="likes">${media.likes}
+            <button class="heart" data-id="${media.id}">
+              <i class="far fa-heart unchecked" aria-hidden="true"></i>
+              <i class="fas fa-heart checked" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
       </div>
-     </div>
-    </div>
     `;
     titleElement.innerHTML = templateTitleAndLike;
     mediaElement.appendChild(titleElement);
@@ -47,7 +47,6 @@ function mediaFactory(media, photographer) {
     // Met le contenu de la div avec l'id "total-likes" à jour
     let totalLikes = 0;
     allMedia.forEach((mediaItem) => {
-      //<--"medias" n'est pas reconnu dans la consol et le filtre de tri ne fonctionnera pas
       totalLikes += mediaItem.likes;
     });
 
@@ -65,6 +64,7 @@ function mediaFactory(media, photographer) {
       </div>
     `
     );
+
     return mediaElement;
   }
 

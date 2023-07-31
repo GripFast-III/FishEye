@@ -124,19 +124,15 @@ getInfos()
     sortOptions.forEach((option) => {
       option.addEventListener("click", () => {
         const selectedValue = option.getAttribute("data-value");
-        console.log(
-          "🚀 ~ file: photographer.js:115 ~ option.addEventListener ~ selectedValue:",
-          selectedValue
-        );
         selectedOption.textContent = option.textContent;
         optionsList.style.display = "none";
         let mediaSorted = sortMedia(allMedia, selectedValue);
 
         // Vider les médias présents dans le DOM
         mediaContainer.innerHTML = "";
-        mediaSorted.forEach((media) => {
+        mediaSorted.forEach((media, i) => {
           let myFactoryMediaModel = mediaFactory(media, photographer);
-          const myMediaHtml = myFactoryMediaModel.getHtmlMedia();
+          const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, media);
           mediaContainer.appendChild(myMediaHtml);
         });
 
@@ -146,7 +142,6 @@ getInfos()
     });
   })
   .catch((err) => {
-    console.log("error getInfos details", err);
     // Si l'URL n'est pas valide cela affichera un message d'erreur
     const target = document.getElementById("main");
     target.innerHTML = `
@@ -236,4 +231,45 @@ function updateMedia(folderMedia, newMediaIndex) {
     mediaSelected.image ? mediaSelected.image : mediaSelected.video
   }`;
   targetModal.appendChild(childrenTargetModal);
+}
+
+function toggleLike(likes, id, isChecked, heartButton) {
+  console.log(
+    "🚀 ~ file: photographer.js:237 ~ toggleLike ~ isChecked:",
+    isChecked
+  );
+  console.log("🚀 ~ file: photographer.js:237 ~ toggleLike ~ id:", id);
+  console.log("🚀 ~ file: photographer.js:237 ~ toggleLike ~ likes:", likes);
+
+  let likesCount = parseInt(likes); // parseInt convertit la chaîne de caractères en un nombre entier.
+
+  // Sélectionner les icônes de cœur à partir de heartButton
+  const uncheckedHeart = heartButton.querySelector(".unchecked");
+  const checkedHeart = heartButton.querySelector(".checked");
+
+  if (isChecked) {
+    likesCount--; // Soustrait un like si l'utilisateur a déjà aimé tel média
+    checkedHeart.style.display = "none";
+    uncheckedHeart.style.display = "inline";
+  } else {
+    likesCount++; // Ajoute un like si l'utilisateur n'a pas encore aimé tel média
+    uncheckedHeart.style.display = "none";
+    checkedHeart.style.display = "inline";
+  }
+
+  // Met à jour le nombre de likes dans l'élément DOM approprié
+  const likesElement = heartButton.parentElement.querySelector(".likes");
+  likesElement.textContent = likesCount;
+  console.log(
+    "🚀 ~ file: photographer.js:263 ~ toggleLike ~ likesElement:",
+    likesElement
+  );
+
+  // Met à jour le nombre de likes dans l'élément <span class="like-quantity">
+  const likeQuantityElement = document.querySelector(".like-quantity");
+  likeQuantityElement.textContent = likesCount;
+  console.log(
+    "🚀 ~ file: photographer.js:267 ~ toggleLike ~ likesCount:",
+    likesCount
+  );
 }
