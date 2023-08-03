@@ -254,6 +254,10 @@ function toggleLike(id) {
   let currentEl = document.querySelector(`.likeAndHeart[data-id="${id}"]`);
   let likes = currentEl.querySelector(`.likesValueJs`).textContent;
   let isCheckedHTML = currentEl.querySelector(`.heart`);
+  let totalLikes = document.querySelector('.like-quantity');
+  let totalLikesValue = document.querySelector('.like-quantity').textContent;
+
+  
 
   console.log(
     "🚀 ~ file: photographer.js:258 ~ toggleLike ~ isCheckedHTML:",
@@ -272,9 +276,12 @@ function toggleLike(id) {
     currentEl
   );
   let newTemplate;
+  let newTotalLikes;
   if (isChecked === "no") {
     console.log("pas liké");
     let newLikesCountMedia = likesCountMedia + 1;
+    newTotalLikes = Number(totalLikesValue) + 1
+    
     newTemplate = `
     
       <div class="likes"><span class="likesValueJs">${newLikesCountMedia}</span>
@@ -287,6 +294,8 @@ function toggleLike(id) {
     console.log(" liké");
 
     let newLikesCountMedia = likesCountMedia - 1;
+    newTotalLikes = Number(totalLikesValue) - 1
+
     newTemplate = `
       <div class="likes"><span class="likesValueJs">${newLikesCountMedia}</span>
         <button class="heart" data-liked="no" data-id="${id}">
@@ -297,6 +306,7 @@ function toggleLike(id) {
   }
   currentEl.innerHTML = "";
   currentEl.innerHTML = newTemplate;
+  totalLikes.innerHTML = newTotalLikes
   // Sélectionner les icônes de cœur à partir de heartButton
   // const uncheckedHeart = heartButton.querySelector(".unchecked");
   // const checkedHeart = heartButton.querySelector(".checked");
