@@ -256,96 +256,38 @@ function toggleLike(id) {
   let isCheckedHTML = currentEl.querySelector(`.heart`);
   let totalLikes = document.querySelector('.like-quantity');
   let totalLikesValue = document.querySelector('.like-quantity').textContent;
-
-  
-
-  console.log(
-    "🚀 ~ file: photographer.js:258 ~ toggleLike ~ isCheckedHTML:",
-    isCheckedHTML
-  );
-  console.log("🚀 ~ file: photographer.js:257 ~ toggleLike ~ likes:", likes);
+ 
   let likesCountMedia = parseInt(likes); // parseInt convertit la chaîne de caractères en un nombre entier.
-  console.log("🚀 ~ file: photographer.js:258 ~ toggleLike ~ id:", id);
   let isChecked = isCheckedHTML.dataset.liked;
-  console.log(
-    "🚀 ~ file: photographer.js:261 ~ toggleLike ~ isChecked:",
-    isChecked
-  );
-  console.log(
-    "🚀 ~ file: photographer.js:261 ~ toggleLike ~ currentEl:",
-    currentEl
-  );
+
   let newTemplate;
   let newTotalLikes;
+  let newLikesCountMedia = null
+  let isSelected = null
+  let classHeart = null
+
+
   if (isChecked === "no") {
-    console.log("pas liké");
-    let newLikesCountMedia = likesCountMedia + 1;
+    newLikesCountMedia = likesCountMedia + 1;
     newTotalLikes = Number(totalLikesValue) + 1
+    isSelected = 'yes'
+    classHeart = 'fas'
     
-    newTemplate = `
-    
-      <div class="likes"><span class="likesValueJs">${newLikesCountMedia}</span>
-        <button class="heart" data-liked="yes" data-id="${id}">
-          <i class="fas fa-heart checked" aria-hidden="true"></i>
-        </button>
-      </div>
-    `;
   } else {
-    console.log(" liké");
-
-    let newLikesCountMedia = likesCountMedia - 1;
+    newLikesCountMedia = likesCountMedia - 1;
     newTotalLikes = Number(totalLikesValue) - 1
+    isSelected = 'no'
+    classHeart = 'far'
+  }
 
-    newTemplate = `
+  newTemplate = `
       <div class="likes"><span class="likesValueJs">${newLikesCountMedia}</span>
-        <button class="heart" data-liked="no" data-id="${id}">
-          <i class="far fa-heart checked" aria-hidden="true"></i>
+        <button class="heart" data-liked="${isSelected}" data-id="${id}">
+          <i class="${classHeart} fa-heart checked" aria-hidden="true"></i>
         </button>
       </div>
     `;
-  }
   currentEl.innerHTML = "";
   currentEl.innerHTML = newTemplate;
   totalLikes.innerHTML = newTotalLikes
-  // Sélectionner les icônes de cœur à partir de heartButton
-  // const uncheckedHeart = heartButton.querySelector(".unchecked");
-  // const checkedHeart = heartButton.querySelector(".checked");
-
-  // if (!!isLiked) {
-  //   console.log("pas liké")
-  //   let currentEl = document.querySelector(`.likeAndHeart[data-id="${id}"]`)
-  //   // heartButton.dataset.liked = true
-  //   console.log("🚀 ~ file: photographer.js:271 ~ toggleLike ~ likesCountMedia:", likesCountMedia + 1 )
-  //   let newLikesCountMedia = likesCountMedia + 1
-  //   currentEl.innerHTML = ''
-  //   let newTemplate = `<div class="likes">${newLikesCountMedia}
-  //     <button class="heart" data-id="${id}">
-  //       <i class="fas fa-heart checked" aria-hidden="true"></i>
-  //     </button>
-  //   </div>`
-  //   currentEl.innerHTML = newTemplate
-  // uncheckedHeart.style.display = "none";
-  // checkedHeart.style.display = "inline";
-  // } else {
-  //   console.log("deja liké")
-  //   likesCountMedia--; // Soustrait un like si l'utilisateur a déjà aimé tel média
-  //   // checkedHeart.style.display = "none";
-  //   // uncheckedHeart.style.display = "inline";
-  // }
-
-  // Met à jour le nombre de likes dans l'élément DOM approprié
-  // const likesElement = heartButton.parentElement.querySelector(".likes");
-  // likesElement.textContent = likesCount;
-  // console.log(
-  //   "🚀 ~ file: photographer.js:263 ~ toggleLike ~ likesElement:",
-  //   likesElement
-  // );
-
-  // Met à jour le nombre de likes dans l'élément <span class="like-quantity">
-  // const likeQuantityElement = document.querySelector(".like-quantity");
-  // likeQuantityElement.textContent = likesCount;
-  // console.log(
-  //   "🚀 ~ file: photographer.js:267 ~ toggleLike ~ likesCount:",
-  //   likesCount
-  // );
 }
