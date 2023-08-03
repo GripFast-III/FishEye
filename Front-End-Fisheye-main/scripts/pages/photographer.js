@@ -84,7 +84,8 @@ getInfos()
       );
     };
     let totalLikes = updateTotal(medias);
-    mediaContainer.insertAdjacentHTML(
+    let mainHTML = document.querySelector("#main");
+    mainHTML.insertAdjacentHTML(
       "beforeend",
       `
       <div class="sub-info footer">
@@ -252,32 +253,42 @@ function updateMedia(folderMedia, newMediaIndex) {
 
 function toggleLike(id) {
   let currentEl = document.querySelector(`.likeAndHeart[data-id="${id}"]`);
-  let likes = currentEl.querySelector(`.likesValueJs`).textContent;
+  let idNumb = Number(id);
+  let myCurrentElJS = allMedia.find((el) => el.id === idNumb);
+  console.log(
+    "🚀 ~ file: photographer.js:257 ~ toggleLike ~ myCurrentElJS:",
+    myCurrentElJS
+  );
+  console.log(
+    "🚀 ~ file: photographer.js:257 ~ toggleLike ~ allMedia:",
+    allMedia
+  );
+  let likes = myCurrentElJS.likes;
   let isCheckedHTML = currentEl.querySelector(`.heart`);
-  let totalLikes = document.querySelector('.like-quantity');
-  let totalLikesValue = document.querySelector('.like-quantity').textContent;
- 
+  let totalLikes = document.querySelector(".like-quantity");
+  let totalLikesValue = document.querySelector(".like-quantity").textContent;
+
   let likesCountMedia = parseInt(likes); // parseInt convertit la chaîne de caractères en un nombre entier.
   let isChecked = isCheckedHTML.dataset.liked;
 
   let newTemplate;
   let newTotalLikes;
-  let newLikesCountMedia = null
-  let isSelected = null
-  let classHeart = null
-
+  let newLikesCountMedia;
+  let isSelected;
+  let classHeart;
 
   if (isChecked === "no") {
     newLikesCountMedia = likesCountMedia + 1;
-    newTotalLikes = Number(totalLikesValue) + 1
-    isSelected = 'yes'
-    classHeart = 'fas'
-    
+    myCurrentElJS.likes = myCurrentElJS.likes + 1;
+    newTotalLikes = Number(totalLikesValue) + 1;
+    isSelected = "yes";
+    classHeart = "fas";
   } else {
     newLikesCountMedia = likesCountMedia - 1;
-    newTotalLikes = Number(totalLikesValue) - 1
-    isSelected = 'no'
-    classHeart = 'far'
+    newTotalLikes = Number(totalLikesValue) - 1;
+    myCurrentElJS.likes = myCurrentElJS.likes - 1;
+    isSelected = "no";
+    classHeart = "far";
   }
 
   newTemplate = `
@@ -289,5 +300,5 @@ function toggleLike(id) {
     `;
   currentEl.innerHTML = "";
   currentEl.innerHTML = newTemplate;
-  totalLikes.innerHTML = newTotalLikes
+  totalLikes.innerHTML = newTotalLikes;
 }
