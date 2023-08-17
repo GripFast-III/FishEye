@@ -21,12 +21,14 @@
 
   <body>
     <header>
-      <img
-        src="assets/images/logo.png"
-        class="logo"
-        tabindex="0"
-        alt="Logo de Fisheye"
-      />
+      <a href="http://127.0.0.1:5500/Front-End-Fisheye-main/">
+        <img
+          src="assets/images/logo.png"
+          class="logo"
+          tabindex="0"
+          alt="Logo de Fisheye"
+        />
+      </a>
     </header>
 
     <main id="main">
@@ -90,6 +92,7 @@
         <img
           class="cross"
           src="assets/icons/close.svg"
+          alt="close"
           onclick="closeModal()"
         />
         <header class="modalHeader">
@@ -99,17 +102,19 @@
         <form onsubmit="event.preventDefault();">
           <div>
             <label for="first_name">Prénom</label>
-            <input id="first_name" type="text" />
+            <input id="first_name" type="text" tabindex="0" />
             <label for="last_name">Nom</label>
-            <input id="last_name" type="text" />
+            <input id="last_name" type="text" tabindex="0" />
             <label for="email">e-mail</label>
-            <input id="email" type="email" />
+            <input id="email" type="email" tabindex="0" />
             <label for="message">Votre message</label>
-            <textarea id="message"></textarea>
+            <textarea id="message" tabindex="0"></textarea>
           </div>
           <button
             class="contact_button"
             type="submit"
+            tabindex="0"
+            id="send_button"
             onclick="redirectToPhotographerPage()"
           >
             Envoyer
@@ -128,6 +133,7 @@
         <img
           class="cross"
           src="assets/icons/close.svg"
+          alt="close"
           onclick="closeModal()"
         />
       </div>

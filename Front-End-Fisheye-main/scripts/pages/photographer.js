@@ -174,6 +174,31 @@ getInfos()
         optionsList.style.display = "none";
       });
     });
+
+    sortOptions.forEach((option) => {
+      option.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          const selectedValue = option.getAttribute("data-value");
+          selectedOption.textContent = option.textContent;
+          optionsList.style.display = "none";
+          let mediaSorted = sortMedia(allMedia, selectedValue);
+
+          // Vider les médias présents dans le DOM
+          mediaContainer.innerHTML = "";
+          mediaSorted.forEach((media, i) => {
+            let myFactoryMediaModel = mediaFactory(media, photographer);
+            const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, media);
+            mediaContainer.appendChild(myMediaHtml);
+          });
+
+          selectedOptionIndex = index;
+
+          // Ferme la liste des options après avoir effectué le tri
+          optionsList.style.display = "none";
+        }
+      });
+    });
   })
   .catch((err) => {
     // Si l'URL n'est pas valide cela affichera un message d'erreur
@@ -196,7 +221,34 @@ function displayModal() {
   photographerNameElement.textContent = photographerName;
 
   contactModal.style.display = "flex";
+
+  // Met le focus sur le premier élément focusable dans la modal
+  focusedElementIndex = 0;
+  focusableElements[focusedElementIndex].focus();
 }
+
+// Gestion de la modal de contact au clavier
+const contactModal = document.getElementById("contact_modal");
+const focusableElements = contactModal.querySelectorAll(
+  'input[type="text"], input[type="email"], textarea, .contact_button'
+);
+let focusedElementIndex = 0;
+contactModal.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    event.preventDefault();
+    if (event.shiftKey) {
+      // Déplace le focus vers l'élément précédent
+      focusedElementIndex =
+        (focusedElementIndex - 1 + focusableElements.length) %
+        focusableElements.length;
+    } else {
+      // Déplace le focus vers l'élément suivant
+      focusedElementIndex =
+        (focusedElementIndex + 1) % focusableElements.length;
+    }
+    focusableElements[focusedElementIndex].focus();
+  }
+});
 
 // Gestion de la fermeture des modals
 function closeModal() {
@@ -207,7 +259,13 @@ function closeModal() {
   galleryModal.style.display = "none";
 }
 
-//Gestion de la modal des médias
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    closeModal();
+  }
+});
+
+// Gestion de la modal des médias
 const openModal = (infos, indexMedia, folderImage) => {
   currentMediaIndex = indexMedia;
   let mediaSelected = infos[indexMedia];
@@ -225,6 +283,7 @@ const openModal = (infos, indexMedia, folderImage) => {
 
   const galleryModal = document.getElementById("gallery_modal");
 
+  // Gestion du carousel avec les flèches G/D
   galleryModal.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeModal();
@@ -235,14 +294,14 @@ const openModal = (infos, indexMedia, folderImage) => {
     } else if (event.key === "Tab") {
       event.preventDefault();
 
-      // Récupérer tous les éléments focusables dans la modal <----------------- ?
+      // Récupère tous les éléments focusables dans la modal
       const focusableElements = galleryModal.querySelectorAll(
         "a, button, input, textarea"
       );
       const firstFocusable = focusableElements[0];
       const lastFocusable = focusableElements[focusableElements.length - 1];
 
-      // Gérer la navigation avec la touche Tab
+      // Gère la navigation avec la touche Tab
       if (!event.shiftKey && document.activeElement === lastFocusable) {
         event.preventDefault();
         firstFocusable.focus();
@@ -346,4 +405,20 @@ function toggleLike(id) {
   currentEl.innerHTML = "";
   currentEl.innerHTML = newTemplate;
   totalLikes.innerHTML = newTotalLikes;
+}
+
+// GEstion des informations saisies dans la modal de contact et fermeture de la modal après submit
+function redirectToPhotographerPage() {
+  // Récupération des informations du formulaire
+  const firstName = document.getElementById("first_name").value;
+  const lastName = document.getElementById("last_name").value;
+  const email = document.getElementById("email").value;
+
+  // Affichage des infos dans la console
+  console.log("Prénom :", firstName);
+  console.log("Nom :", lastName);
+  console.log("e-mail :", email);
+
+  // Fermeture de la modal
+  closeModal();
 }
