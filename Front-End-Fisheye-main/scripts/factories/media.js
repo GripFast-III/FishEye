@@ -4,6 +4,8 @@ function mediaFactory(media, photographer) {
   function getHtmlMedia(index) {
     let mediaElement = document.createElement(`div`);
     mediaElement.classList.add("media"); // Ajout de la class "media" à chaque élement média
+    mediaElement.setAttribute("role", "button");
+    mediaElement.setAttribute("tabindex", "0");
     let childElement = null;
 
     if (media.image) {
@@ -24,6 +26,14 @@ function mediaFactory(media, photographer) {
     // Gestion du clic pour ouvrir une modale
     childElement.addEventListener("click", () => {
       openModal(allMedia, index, folderImage);
+    });
+
+    // Gestion de l'événement pour ouvrir une modale (clavier et clic)
+    mediaElement.addEventListener("keydown", (event) => {
+      // mediaElement ou chilElement ?
+      if (event.key === "Enter" || event.key === " ") {
+        openModal(allMedia, index, folderImage);
+      }
     });
 
     // Ajout de code HTML pour afficher le titre et le nombre de likes

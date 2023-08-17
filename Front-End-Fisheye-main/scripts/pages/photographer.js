@@ -72,11 +72,7 @@ getInfos()
       const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, medias);
       mediaContainer.appendChild(myMediaHtml);
     });
-    // Met le contenu de la div avec l'id "total-likes" à jour
-    // let totalLikes = 0;
-    // allMedia.forEach((mediaItem) => {
-    //   totalLikes += mediaItem.likes;
-    // });
+
     const updateTotal = (mediasToTotal) => {
       return mediasToTotal.reduce(
         (initvalue, media) => media.likes + initvalue,
@@ -124,19 +120,37 @@ getInfos()
     };
 
     const sortOptions = document.querySelectorAll(".sort-option");
-
     const selectedOption = document.querySelector(".selected-option");
-
     const optionsList = document.querySelector(".options-list");
-
     optionsList.addEventListener("click", (event) => {
       event.stopPropagation();
     });
+    let selectedOptionIndex = -1;
 
+    // Gestion de la liste déroulante avec le clic
     selectedOption.addEventListener("click", (event) => {
       event.stopPropagation();
       optionsList.style.display =
         optionsList.style.display === "block" ? "none" : "block";
+    });
+
+    // Gestion de la liste déroulante avec le clavier
+    selectedOption.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        optionsList.style.display =
+          optionsList.style.display === "block" ? "none" : "block";
+        optionsList.focus();
+      } else if (event.key === "ArrowDown") {
+        event.preventDefault();
+        selectedOptionIndex = (selectedOptionIndex + 1) % sortOptions.length;
+        sortOptions[selectedOptionIndex].focus();
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        selectedOptionIndex =
+          (selectedOptionIndex - 1 + sortOptions.length) % sortOptions.length;
+        sortOptions[selectedOptionIndex].focus();
+      }
     });
 
     sortOptions.forEach((option) => {
@@ -153,6 +167,8 @@ getInfos()
           const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, media);
           mediaContainer.appendChild(myMediaHtml);
         });
+
+        selectedOptionIndex = index;
 
         // Ferme la liste des options après avoir effectué le tri
         optionsList.style.display = "none";
@@ -208,6 +224,35 @@ const openModal = (infos, indexMedia, folderImage) => {
   `;
 
   const galleryModal = document.getElementById("gallery_modal");
+
+  galleryModal.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeModal();
+    } else if (event.key === "ArrowLeft") {
+      prevMedia(folderImage);
+    } else if (event.key === "ArrowRight") {
+      nextMedia(folderImage);
+    } else if (event.key === "Tab") {
+      event.preventDefault();
+
+      // Récupérer tous les éléments focusables dans la modal <----------------- ?
+      const focusableElements = galleryModal.querySelectorAll(
+        "a, button, input, textarea"
+      );
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      // Gérer la navigation avec la touche Tab
+      if (!event.shiftKey && document.activeElement === lastFocusable) {
+        event.preventDefault();
+        firstFocusable.focus();
+      } else if (event.shiftKey && document.activeElement === firstFocusable) {
+        event.preventDefault();
+        lastFocusable.focus();
+      }
+    }
+  });
+
   const modalHtml = gallery_modal.querySelector(".modal");
   modalHtml.innerHTML = ""; // Enlève le contenu dans la modal
   const targetModal = document.getElementById("gallery_modal_current_media");

@@ -21,7 +21,12 @@
 
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+      <img
+        src="assets/images/logo.png"
+        class="logo"
+        tabindex="0"
+        alt="Logo de Fisheye"
+      />
     </header>
 
     <main id="main">
@@ -34,19 +39,53 @@
       <div class="sort-container">
         <div class="sort-by">Trier par</div>
         <div class="sort-select">
-          <div class="selected-option">
+          <div
+            class="selected-option"
+            tabindex="0"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
             ...<i class="fa-solid fa-chevron-down"></i>
           </div>
-          <ul class="options-list" id="options-list">
-            <li class="sort-option" data-value="likes">Popularité</li>
-            <li class="sort-option" data-value="title">Titre</li>
-            <li class="sort-option" data-value="date">Date</li>
+          <ul
+            class="options-list"
+            id="options-list"
+            role="listbox"
+            aria-labelledby="sort-by"
+          >
+            <li
+              class="sort-option"
+              data-value="likes"
+              tabindex="-1"
+              role="option"
+              aria-selected="false"
+            >
+              Popularité
+            </li>
+            <li
+              class="sort-option"
+              data-value="title"
+              tabindex="-1"
+              role="option"
+              aria-selected="false"
+            >
+              Titre
+            </li>
+            <li
+              class="sort-option"
+              data-value="date"
+              tabindex="-1"
+              role="option"
+              aria-selected="false"
+            >
+              Date
+            </li>
           </ul>
         </div>
       </div>
     </main>
 
-    <div id="contact_modal">
+    <div id="contact_modal" role="dialog" aria-labelledby="contact_modal_label">
       <div class="modal">
         <img
           class="cross"
@@ -79,7 +118,12 @@
       </div>
     </div>
 
-    <div id="gallery_modal">
+    <div
+      id="gallery_modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-labelledby="gallery_modal_label"
+    >
       <div class="modal">
         <img
           class="cross"
@@ -90,7 +134,12 @@
       <div id="gallery_modal_current_media"></div>
     </div>
 
-    <div id="modal-medias">
+    <div
+      id="modal-medias"
+      aria-hidden="true"
+      role="dialog"
+      aria-labelledby="modal_medias_label"
+    >
       <img class="cross" src="assets/icons/close.svg" onclick="closeModal()" />
       <div id="media-container-carrousel"></div>
     </div>
