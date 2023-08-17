@@ -168,7 +168,7 @@ getInfos()
           mediaContainer.appendChild(myMediaHtml);
         });
 
-        selectedOptionIndex = index;
+        //selectedOptionIndex = index;
 
         // Ferme la liste des options après avoir effectué le tri
         optionsList.style.display = "none";
@@ -192,7 +192,7 @@ getInfos()
             mediaContainer.appendChild(myMediaHtml);
           });
 
-          selectedOptionIndex = index;
+          //selectedOptionIndex = index;
 
           // Ferme la liste des options après avoir effectué le tri
           optionsList.style.display = "none";
@@ -284,7 +284,11 @@ const openModal = (infos, indexMedia, folderImage) => {
   const galleryModal = document.getElementById("gallery_modal");
 
   // Gestion du carousel avec les flèches G/D
-  galleryModal.addEventListener("keydown", (event) => {
+  document.addEventListener("keydown", (event) => {
+    console.log(
+      "🚀 ~ file: photographer.js:289 ~ galleryModal.addEventListener ~ event.key:",
+      event.key
+    );
     if (event.key === "Escape") {
       closeModal();
     } else if (event.key === "ArrowLeft") {
@@ -296,7 +300,7 @@ const openModal = (infos, indexMedia, folderImage) => {
 
       // Récupère tous les éléments focusables dans la modal
       const focusableElements = galleryModal.querySelectorAll(
-        "a, button, input, textarea"
+        "a, button, input, textarea, object, image"
       );
       const firstFocusable = focusableElements[0];
       const lastFocusable = focusableElements[focusableElements.length - 1];
