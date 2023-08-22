@@ -26,7 +26,7 @@
           src="assets/images/logo.png"
           class="logo"
           tabindex="0"
-          alt="Logo de Fisheye"
+          alt="Logo de Fisheye avec un lien qui ramène à la page principale"
         />
       </a>
     </header>
@@ -89,12 +89,11 @@
 
     <div id="contact_modal" role="dialog" aria-labelledby="contact_modal_label">
       <div class="modal">
-        <img
-          class="cross"
-          src="assets/icons/close.svg"
+        <i
+          class="fa-solid fa-xmark cross"
           alt="close"
           onclick="closeModal()"
-        />
+        ></i>
         <header class="modalHeader">
           <h2>Contactez-moi</h2>
           <h3 id="photographer_name"></h3>
@@ -133,21 +132,16 @@
         <img
           class="cross"
           src="assets/icons/close.svg"
-          alt="close"
+          alt="close the window"
           onclick="closeModal()"
         />
+        <i
+          class="fa-solid fa-xmark cross"
+          alt="close the window"
+          onclick="closeModal()"
+        ></i>
       </div>
       <div id="gallery_modal_current_media"></div>
-    </div>
-
-    <div
-      id="modal-medias"
-      aria-hidden="true"
-      role="dialog"
-      aria-labelledby="modal_medias_label"
-    >
-      <img class="cross" src="assets/icons/close.svg" onclick="closeModal()" />
-      <div id="media-container-carrousel"></div>
     </div>
 
     <script src="scripts/factories/media.js"></script>

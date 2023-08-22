@@ -168,8 +168,6 @@ getInfos()
           mediaContainer.appendChild(myMediaHtml);
         });
 
-        //selectedOptionIndex = index;
-
         // Ferme la liste des options après avoir effectué le tri
         optionsList.style.display = "none";
       });
@@ -191,8 +189,6 @@ getInfos()
             const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, media);
             mediaContainer.appendChild(myMediaHtml);
           });
-
-          //selectedOptionIndex = index;
 
           // Ferme la liste des options après avoir effectué le tri
           optionsList.style.display = "none";
@@ -273,12 +269,15 @@ const openModal = (infos, indexMedia, folderImage) => {
   containerArrows.classList.add("carousel");
   containerArrows.innerHTML = `
     <img class="cross-media" src="assets/icons/close.svg" onclick="closeModal()" />
-    <div class="carousel-arrow-left">
-      <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderImage}')"></i>
+    <div class="arrows">
+      <div class="carousel-arrow-left">
+        <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderImage}')"></i>
+      </div>
+      <div class="carousel-arrow-right">
+        <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderImage}')"></i>
+      </div>
     </div>
-    <div class="carousel-arrow-right">
-      <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderImage}')"></i>
-    </div>
+    <div class="under-title-media">${mediaSelected.title}</div>
   `;
 
   const galleryModal = document.getElementById("gallery_modal");
@@ -329,7 +328,37 @@ const openModal = (infos, indexMedia, folderImage) => {
   galleryModal.style.display = "block";
 };
 
-//Gestion des fonctions précédentes et suivantes pour le carousel des medias
+let isVideoPlaying = true;
+// Gestion de la fonction pause de la barre espace
+document.addEventListener("keydown", (event) => {
+  if (event.key === " " && event.target === document.body) {
+    event.preventDefault(); // Empêche le défilement de la page lorsque l'on appuie sur la barre espace
+
+    // Sélectionne la vidéo affichée dans la modal
+    const videoElement = targetModal.querySelector("object");
+
+    // Si une vidéo est trouvée, cela met "pause" ou "lecture"
+    if (videoElement) {
+      if (isVideoPlaying) {
+        pauseVideo(videoElement);
+      } else {
+        playVideo(videoElement);
+      }
+      isVideoPlaying = !isVideoPlaying;
+    }
+  }
+});
+
+function playVideo(videoElement) {
+  videoElement.pause();
+}
+
+function pauseVideo(videoElement) {
+  videoElement.pause();
+}
+
+// Gestion des fonctions "précédentes" et "suivantes" pour le carousel des medias
+// Fonction pour passer au média précédent
 function prevMedia(folder) {
   let prevIndex = currentMediaIndex - 1;
   if (prevIndex < 0) {
@@ -339,6 +368,7 @@ function prevMedia(folder) {
   updateMedia(folder, prevIndex);
 }
 
+// Fonction pour passer au média suivant
 function nextMedia(folder) {
   let nextIndex = currentMediaIndex + 1;
   if (nextIndex >= allMedia.length) {
@@ -348,6 +378,13 @@ function nextMedia(folder) {
   updateMedia(folder, nextIndex);
 }
 
+// Fonction pour mettre à jour le titre du média
+function updateMediaTitle(title) {
+  const titleElement = document.querySelector(".under-title-media");
+  titleElement.textContent = title;
+}
+
+// Fonction pour mettre à jour le média dans la modal
 function updateMedia(folderMedia, newMediaIndex) {
   const mediaSelected = allMedia[newMediaIndex];
   const targetModal = document.getElementById("gallery_modal_current_media");
@@ -357,7 +394,12 @@ function updateMedia(folderMedia, newMediaIndex) {
     mediaSelected.image ? mediaSelected.image : mediaSelected.video
   }`;
   targetModal.appendChild(childrenTargetModal);
+
+  // Met à jour le titre du média
+  updateMediaTitle(mediaSelected.title);
 }
+
+// Fonction pour faire en sorte que la barre espace fasse 'pause" lors de la lecture d'une vidéo
 
 function toggleLike(id) {
   let currentEl = document.querySelector(`.likeAndHeart[data-id="${id}"]`);
@@ -411,17 +453,19 @@ function toggleLike(id) {
   totalLikes.innerHTML = newTotalLikes;
 }
 
-// GEstion des informations saisies dans la modal de contact et fermeture de la modal après submit
+// Gestion des informations saisies dans la modal de contact et fermeture de la modal après submit
 function redirectToPhotographerPage() {
   // Récupération des informations du formulaire
   const firstName = document.getElementById("first_name").value;
   const lastName = document.getElementById("last_name").value;
   const email = document.getElementById("email").value;
+  const message = document.getElementById("message").value;
 
   // Affichage des infos dans la console
   console.log("Prénom :", firstName);
   console.log("Nom :", lastName);
   console.log("e-mail :", email);
+  console.log("Message : ", message);
 
   // Fermeture de la modal
   closeModal();
