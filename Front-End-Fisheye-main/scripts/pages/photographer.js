@@ -262,7 +262,7 @@ document.addEventListener("keydown", function (event) {
 });
 
 // Gestion de la modal des médias
-const openModal = (infos, indexMedia, folderImage) => {
+const openModal = (infos, indexMedia, folderMedia) => {
   currentMediaIndex = indexMedia;
   let mediaSelected = infos[indexMedia];
   let containerArrows = document.createElement("div");
@@ -271,10 +271,10 @@ const openModal = (infos, indexMedia, folderImage) => {
     <img class="cross-media" src="assets/icons/close.svg" onclick="closeModal()" />
     <div class="arrows">
       <div class="carousel-arrow-left">
-        <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderImage}')"></i>
+        <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderMedia}')"></i>
       </div>
       <div class="carousel-arrow-right">
-        <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderImage}')"></i>
+        <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderMedia}')"></i>
       </div>
     </div>
     <div class="under-title-media">${mediaSelected.title}</div>
@@ -291,15 +291,15 @@ const openModal = (infos, indexMedia, folderImage) => {
     if (event.key === "Escape") {
       closeModal();
     } else if (event.key === "ArrowLeft") {
-      prevMedia(folderImage);
+      prevMedia(folderMedia);
     } else if (event.key === "ArrowRight") {
-      nextMedia(folderImage);
+      nextMedia(folderMedia);
     } else if (event.key === "Tab") {
       event.preventDefault();
 
       // Récupère tous les éléments focusables dans la modal
       const focusableElements = galleryModal.querySelectorAll(
-        "a, button, input, textarea, object, image"
+        "a, button, input, textarea, object, image,"
       );
       const firstFocusable = focusableElements[0];
       const lastFocusable = focusableElements[focusableElements.length - 1];
@@ -319,8 +319,20 @@ const openModal = (infos, indexMedia, folderImage) => {
   modalHtml.innerHTML = ""; // Enlève le contenu dans la modal
   const targetModal = document.getElementById("gallery_modal_current_media");
   targetModal.innerHTML = "";
-  const childrenTargetModal = document.createElement("object");
-  childrenTargetModal.data = `./assets/images/${folderImage}/${
+  let childrenTargetModal
+  if (mediaSelected.image) {
+    childrenTargetModal = document.createElement('img')
+    childrenTargetModal.src = `./assets/images/${folderMedia}/${mediaSelected.image}`;
+  } else {
+    childrenTargetModal = document.createElement('video')
+    childrenTargetModal.setAttribute('controls', true )
+    childrenTargetModal.setAttribute('autoplay', true )
+    let sourceHtml = document.createElement('source')
+    sourceHtml.setAttribute('type', 'video/mp4' )
+    sourceHtml.src = `./assets/images/${folderMedia}/${mediaSelected.video}`;
+    childrenTargetModal.append(sourceHtml)
+  }
+  childrenTargetModal.data = `./assets/images/${folderMedia}/${
     mediaSelected.image ? mediaSelected.image : mediaSelected.video
   }`;
   targetModal.append(childrenTargetModal);
@@ -335,7 +347,7 @@ document.addEventListener("keydown", (event) => {
     event.preventDefault(); // Empêche le défilement de la page lorsque l'on appuie sur la barre espace
 
     // Sélectionne la vidéo affichée dans la modal
-    const videoElement = targetModal.querySelector("object");
+    const videoElement = document.querySelector("video");
 
     // Si une vidéo est trouvée, cela met "pause" ou "lecture"
     if (videoElement) {
@@ -389,10 +401,19 @@ function updateMedia(folderMedia, newMediaIndex) {
   const mediaSelected = allMedia[newMediaIndex];
   const targetModal = document.getElementById("gallery_modal_current_media");
   targetModal.innerHTML = ""; // Enlève le contenu dans la modal
-  const childrenTargetModal = document.createElement("object");
-  childrenTargetModal.data = `./assets/images/${folderMedia}/${
-    mediaSelected.image ? mediaSelected.image : mediaSelected.video
-  }`;
+  let childrenTargetModal
+  if (mediaSelected.image) {
+    childrenTargetModal = document.createElement('img')
+    childrenTargetModal.src = `./assets/images/${folderMedia}/${mediaSelected.image}`;
+  } else {
+    childrenTargetModal = document.createElement('video')
+    childrenTargetModal.setAttribute('controls', true )
+    childrenTargetModal.setAttribute('autoplay', true )
+    let sourceHtml = document.createElement('source')
+    sourceHtml.setAttribute('type', 'video/mp4' )
+    sourceHtml.src = `./assets/images/${folderMedia}/${mediaSelected.video}`;
+    childrenTargetModal.append(sourceHtml)
+  }
   targetModal.appendChild(childrenTargetModal);
 
   // Met à jour le titre du média

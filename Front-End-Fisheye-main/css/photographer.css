@@ -356,7 +356,7 @@ textarea {
     background:#32bacf;
 }
 
-object {
+img, video {
     width: 100%;
     z-index: 9999;
 }
