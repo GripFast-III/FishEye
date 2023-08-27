@@ -265,7 +265,11 @@ document.addEventListener("keydown", function (event) {
 const openModal = (infos, indexMedia, folderMedia) => {
   currentMediaIndex = indexMedia;
   let mediaSelected = infos[indexMedia];
-  let containerArrows = document.createElement("div");
+  const galleryModal = document.getElementById("gallery_modal");
+  const modalHtml = galleryModal.querySelector(".modal");
+  modalHtml.innerHTML = ""; // Enlève le contenu dans la modal
+
+  const containerArrows = document.createElement("div"); // ou let ?
   containerArrows.classList.add("carousel");
   containerArrows.innerHTML = `
     <img class="cross-media" src="assets/icons/close.svg" onclick="closeModal()" />
@@ -273,14 +277,15 @@ const openModal = (infos, indexMedia, folderMedia) => {
       <div class="carousel-arrow-left">
         <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderMedia}')"></i>
       </div>
+      <div class="cadre-media-and-title">
+        <div id="gallery_modal_current_media"></div>
+        <div class="under-title-media">${mediaSelected.title}</div>
+      </div>
       <div class="carousel-arrow-right">
         <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderMedia}')"></i>
       </div>
     </div>
-    <div class="under-title-media">${mediaSelected.title}</div>
   `;
-
-  const galleryModal = document.getElementById("gallery_modal");
 
   // Gestion du carousel avec les flèches G/D
   document.addEventListener("keydown", (event) => {
@@ -315,28 +320,33 @@ const openModal = (infos, indexMedia, folderMedia) => {
     }
   });
 
-  const modalHtml = gallery_modal.querySelector(".modal");
-  modalHtml.innerHTML = ""; // Enlève le contenu dans la modal
-  const targetModal = document.getElementById("gallery_modal_current_media");
-  targetModal.innerHTML = "";
-  let childrenTargetModal
+  const targetModal = containerArrows.querySelector(
+    "#gallery_modal_current_media"
+  );
+  //targetModal.innerHTML = "";
+  //let childrenTargetModal;
+
   if (mediaSelected.image) {
-    childrenTargetModal = document.createElement('img')
+    childrenTargetModal = document.createElement("img");
     childrenTargetModal.src = `./assets/images/${folderMedia}/${mediaSelected.image}`;
   } else {
-    childrenTargetModal = document.createElement('video')
-    childrenTargetModal.setAttribute('controls', true )
-    childrenTargetModal.setAttribute('autoplay', true )
-    let sourceHtml = document.createElement('source')
-    sourceHtml.setAttribute('type', 'video/mp4' )
+    childrenTargetModal = document.createElement("video");
+    childrenTargetModal.setAttribute("controls", true);
+    childrenTargetModal.setAttribute("autoplay", true);
+    let sourceHtml = document.createElement("source");
+    sourceHtml.setAttribute("type", "video/mp4");
     sourceHtml.src = `./assets/images/${folderMedia}/${mediaSelected.video}`;
-    childrenTargetModal.append(sourceHtml)
+    childrenTargetModal.append(sourceHtml);
   }
+
   childrenTargetModal.data = `./assets/images/${folderMedia}/${
     mediaSelected.image ? mediaSelected.image : mediaSelected.video
   }`;
+
   targetModal.append(childrenTargetModal);
-  modalHtml.append(containerArrows);
+
+  modalHtml.appendChild(containerArrows);
+
   galleryModal.style.display = "block";
 };
 
@@ -401,26 +411,24 @@ function updateMedia(folderMedia, newMediaIndex) {
   const mediaSelected = allMedia[newMediaIndex];
   const targetModal = document.getElementById("gallery_modal_current_media");
   targetModal.innerHTML = ""; // Enlève le contenu dans la modal
-  let childrenTargetModal
+  let childrenTargetModal;
   if (mediaSelected.image) {
-    childrenTargetModal = document.createElement('img')
+    childrenTargetModal = document.createElement("img");
     childrenTargetModal.src = `./assets/images/${folderMedia}/${mediaSelected.image}`;
   } else {
-    childrenTargetModal = document.createElement('video')
-    childrenTargetModal.setAttribute('controls', true )
-    childrenTargetModal.setAttribute('autoplay', true )
-    let sourceHtml = document.createElement('source')
-    sourceHtml.setAttribute('type', 'video/mp4' )
+    childrenTargetModal = document.createElement("video");
+    childrenTargetModal.setAttribute("controls", true);
+    childrenTargetModal.setAttribute("autoplay", true);
+    let sourceHtml = document.createElement("source");
+    sourceHtml.setAttribute("type", "video/mp4");
     sourceHtml.src = `./assets/images/${folderMedia}/${mediaSelected.video}`;
-    childrenTargetModal.append(sourceHtml)
+    childrenTargetModal.append(sourceHtml);
   }
   targetModal.appendChild(childrenTargetModal);
 
   // Met à jour le titre du média
   updateMediaTitle(mediaSelected.title);
 }
-
-// Fonction pour faire en sorte que la barre espace fasse 'pause" lors de la lecture d'une vidéo
 
 function toggleLike(id) {
   let currentEl = document.querySelector(`.likeAndHeart[data-id="${id}"]`);
