@@ -273,18 +273,20 @@ const openModal = (infos, indexMedia, folderMedia) => {
   containerArrows.classList.add("carousel");
   containerArrows.innerHTML = `
     <img class="cross-media" src="assets/icons/close.svg" onclick="closeModal()" />
-    <div class="arrows">
-      <div class="carousel-arrow-left">
-        <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderMedia}')"></i>
+      <div class="blue-square"
+        <div class="arrows">
+          <div class="carousel-arrow-left">
+            <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderMedia}')"></i>
+          </div>
+          <div class="cadre-media-and-title">
+            <div id="gallery_modal_current_media"></div>
+            <div class="under-title-media">${mediaSelected.title}</div>
+          </div>
+          <div class="carousel-arrow-right">
+            <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderMedia}')"></i>
+          </div>
+        </div>
       </div>
-      <div class="cadre-media-and-title">
-        <div id="gallery_modal_current_media"></div>
-        <div class="under-title-media">${mediaSelected.title}</div>
-      </div>
-      <div class="carousel-arrow-right">
-        <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderMedia}')"></i>
-      </div>
-    </div>
   `;
 
   // Gestion du carousel avec les flèches G/D
@@ -472,7 +474,7 @@ function toggleLike(id) {
 
   newTemplate = `
       <div class="likes"><span class="likesValueJs">${newLikesCountMedia}</span>
-        <button class="heart" data-liked="${isSelected}" data-id="${id}">
+        <button class="heart" aria-label="likes" data-liked="${isSelected}" data-id="${id}">
           <i class="${classHeart} fa-heart checked" aria-hidden="true"></i>
         </button>
       </div>

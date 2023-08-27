@@ -8,9 +8,12 @@ function photographerFactory(data) {
     const article = document.createElement("article");
     const link = document.createElement("a");
     link.href = urlLocation;
+    link.setAttribute("data-url", urlLocation);
+    link.tabIndex = 0;
 
     const img = document.createElement("img");
     img.setAttribute("src", picture);
+    img.setAttribute("alt", name);
 
     const h2 = document.createElement("h2");
     h2.textContent = name;
@@ -34,6 +37,7 @@ function photographerFactory(data) {
     article.appendChild(taglineHtml);
     article.appendChild(priceHtml);
     link.appendChild(article);
+
     return link;
   }
   return { name, picture, id, city, tagline, price, getUserCardDOM };

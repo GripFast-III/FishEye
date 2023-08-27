@@ -26,14 +26,14 @@
           src="assets/images/logo.png"
           class="logo"
           tabindex="0"
-          alt="Logo de Fisheye avec un lien qui ramène à la page principale"
+          alt="Fisheye Home page"
         />
       </a>
     </header>
 
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">
+        <button class="contact_button" onclick="displayModal()" alt="Contact Me" >
           Contactez-moi
         </button>
       </div>
@@ -44,6 +44,7 @@
           <div
             class="selected-option"
             tabindex="0"
+            role="button"
             aria-haspopup="listbox"
             aria-expanded="false"
           >
@@ -141,9 +142,9 @@
           alt="close the window"
           onclick="closeModal()"
         ></i>
-        --->
       </div>
       <div id="gallery_modal_current_media"></div>
+      --->
     </div>
 
     <script src="scripts/utils/contactForm.js"></script>

@@ -169,14 +169,12 @@
     align-items: center;
     justify-content: space-between;
     margin: auto;
-    max-height: 80%;
-    overflow: auto;
 }
 
 .cross{
     position: absolute;
     top: 20px;
-    right: 70px;
+    right: 105px;
     width: 25px;
     height: 35px;
     cursor: pointer;
@@ -191,7 +189,7 @@
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 50px;
-    font-size: 35px;
+    font-size: 32px;
     background-color: #DB8876;
     height: 100%;
 }
@@ -222,7 +220,7 @@ form {
 
 form label {
     color: #312E2E;
-    font-size: 36px;
+    font-size: 28px;
 }
 
 form div {
@@ -236,14 +234,14 @@ form div {
 
 form input {
     width: 100%;
-    height: 68px;
+    height: 40px;
     border: none;
     border-radius: 5px;
 }
 
 textarea {
     width: 100%;
-    height: 10rem;
+    height: 6rem;
     border: none;
     border-radius: 5px;
 }
@@ -349,8 +347,6 @@ textarea {
     opacity: 1;
 }
 
-
-
 .active {
     background:#32bacf;
 }
@@ -380,18 +376,17 @@ img, video {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    width: 99%;
-    height: 40rem;
     background-color: white;
     border: 1px solid #95FFF9;
 }
 
-.arrows {
+.blue-square {
     display: flex;
     width: 100%;
     justify-content: space-between;
     height: 100%;
     align-items: center;
+    margin: 5%;
 }
 
 .carousel-arrows {
@@ -420,16 +415,23 @@ img, video {
     margin-left: 30px;
 }
 
+.cadre-media-and-title {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+
 .under-title-media {
     display: flex;
     justify-content: left;
-    width: 90%;
-    margin-left: 3rem;
-    margin-bottom: 2rem;
+    width: 100%;
+    color : #901C1C;
+    margin-top: 1rem;
+    margin-left: 4.3rem;
 }
 
 #gallery_modal_current_media {
-    width: 100%;
+    max-width: 70%;
     margin: auto;
     display: flex;
     justify-content: center;
