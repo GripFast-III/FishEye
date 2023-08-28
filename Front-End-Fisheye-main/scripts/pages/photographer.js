@@ -219,8 +219,15 @@ function displayModal() {
   contactModal.style.display = "flex";
 
   // Met le focus sur le premier élément focusable dans la modal
-  focusedElementIndex = 0;
-  focusableElements[focusedElementIndex].focus();
+  //focusedElementIndex = 0;
+  //focusableElements[focusedElementIndex].focus();
+
+  const focusableElements = contactModal.querySelectorAll(
+    'input[type="text"], input[type="email"], textarea, .contact_button'
+  );
+  if (focusableElements.length > 0) {
+    focusableElements[0].focus();
+  }
 }
 
 // Gestion de la modal de contact au clavier
@@ -246,6 +253,9 @@ contactModal.addEventListener("keydown", (event) => {
   }
 });
 
+let previouslyFocusedElement = null; // Grafikart
+let focusableElementsInModal = []; // Liste les éléments focusables dans la modal
+
 // Gestion de la fermeture des modals
 function closeModal() {
   const contactModal = document.getElementById("contact_modal");
@@ -253,10 +263,35 @@ function closeModal() {
 
   contactModal.style.display = "none";
   galleryModal.style.display = "none";
+
+  if (previouslyFocusedElement !== null) {
+    previouslyFocusedElement.focus(); // Grafikart
+  }
 }
 
+/*
+// Grafikart
+const stopPropagation = function (e) {
+  e.stopPropagation()
+}
+
+const focusInModal = function (e) {
+  e.preventDefault()
+  
+}
+
+window.addEventListener('keydown', function (e) {
+  if (e.key === "Escape" || e.key === "Esc") {
+    closeModale(e)
+  }
+}
+  if (e.key === 'Tab' && modal !== null) {
+    focusInModal(e)
+  }
+*/
+
 document.addEventListener("keydown", function (event) {
-  if (event.key === "Escape") {
+  if (event.key === "Escape" || event.key === "Esc") {
     closeModal();
   }
 });
@@ -268,25 +303,25 @@ const openModal = (infos, indexMedia, folderMedia) => {
   const galleryModal = document.getElementById("gallery_modal");
   const modalHtml = galleryModal.querySelector(".modal");
   modalHtml.innerHTML = ""; // Enlève le contenu dans la modal
+  previouslyFocusedElement = document.querySelector(":focus"); // Grafikart
 
   const containerArrows = document.createElement("div"); // ou let ?
   containerArrows.classList.add("carousel");
   containerArrows.innerHTML = `
-    <img class="cross-media" src="assets/icons/close.svg" onclick="closeModal()" />
-      <div class="blue-square"
-        <div class="arrows">
-          <div class="carousel-arrow-left">
-            <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderMedia}')"></i>
-          </div>
-          <div class="cadre-media-and-title">
-            <div id="gallery_modal_current_media"></div>
-            <div class="under-title-media">${mediaSelected.title}</div>
-          </div>
-          <div class="carousel-arrow-right">
-            <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderMedia}')"></i>
-          </div>
+    <div class="blue-square"
+      <div class="arrows">
+        <div class="carousel-arrow-left">
+          <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderMedia}')"></i>
+        </div>
+        <div class="cadre-media-and-title">
+          <div id="gallery_modal_current_media"></div>
+          <div class="under-title-media">${mediaSelected.title}</div>
+        </div>
+        <div class="carousel-arrow-right">
+          <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderMedia}')"></i>
         </div>
       </div>
+    </div>
   `;
 
   // Gestion du carousel avec les flèches G/D
@@ -306,7 +341,7 @@ const openModal = (infos, indexMedia, folderMedia) => {
 
       // Récupère tous les éléments focusables dans la modal
       const focusableElements = galleryModal.querySelectorAll(
-        "a, button, input, textarea, object, image,"
+        "a, button, input, textarea, object, image"
       );
       const firstFocusable = focusableElements[0];
       const lastFocusable = focusableElements[focusableElements.length - 1];
@@ -325,8 +360,6 @@ const openModal = (infos, indexMedia, folderMedia) => {
   const targetModal = containerArrows.querySelector(
     "#gallery_modal_current_media"
   );
-  //targetModal.innerHTML = "";
-  //let childrenTargetModal;
 
   if (mediaSelected.image) {
     childrenTargetModal = document.createElement("img");

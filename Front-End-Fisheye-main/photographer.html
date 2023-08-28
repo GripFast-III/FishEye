@@ -33,7 +33,7 @@
 
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()" alt="Contact Me" >
+        <button id="contact_button" class="contact_button" onclick="displayModal()" alt="Contact Me" >
           Contactez-moi
         </button>
       </div>
@@ -129,22 +129,8 @@
       role="dialog"
       aria-labelledby="gallery_modal_label"
     >
+    <img class="cross-media" src="assets/icons/close.svg" onclick="closeModal()" />
       <div class="modal">
-        <!---
-          <img
-          class="cross"
-          src="assets/icons/close.svg"
-          alt="close the window"
-          onclick="closeModal()"
-        />
-        <i
-          class="fa-solid fa-xmark cross"
-          alt="close the window"
-          onclick="closeModal()"
-        ></i>
-      </div>
-      <div id="gallery_modal_current_media"></div>
-      --->
     </div>
 
     <script src="scripts/utils/contactForm.js"></script>

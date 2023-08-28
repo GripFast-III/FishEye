@@ -159,7 +159,7 @@
 
 .modal {
     position: absolute;
-    top: 50%;
+    top: 53%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 5px;
@@ -192,6 +192,7 @@
     font-size: 32px;
     background-color: #DB8876;
     height: 100%;
+    margin-left: 0px;
 }
 
 .modal header h2 {
@@ -354,6 +355,8 @@ textarea {
 img, video {
     width: 100%;
     z-index: 9999;
+    max-height: 740px;
+    max-width: 410px;
 }
 
 .sub-info {
@@ -444,9 +447,9 @@ object {
 }
 
 .cross-media {
-    position: absolute;
-    top: 20px;
-    right: 35px;
+    position: relative;
+    top: 5%;
+    left: 72%;
     width: 25px;
     height: 35px;
     cursor: pointer;
