@@ -1,0 +1,27 @@
+{
+  "name": "fisheye",
+  "version": "1.0.0",
+  "description": "## Démarrer le projet",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GripFast-III/FishEye.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GripFast-III/FishEye/issues"
+  },
+  "homepage": "https://github.com/GripFast-III/FishEye#readme",
+  "devDependencies": {
+    "eslint": "^8.48.0",
+    "eslint-config-semistandard": "^17.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}
