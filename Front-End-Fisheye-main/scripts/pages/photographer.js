@@ -100,10 +100,12 @@ getInfos()
     target.appendChild(mediaContainer);
 
     const sortMedia = (allMediaToSort, option) => {
+      /*
       console.log(
         "🚀 ~ file: photographer.js:80 ~ sortMedia ~ sortMedia:",
         sortMedia
       );
+      */
       let newMedia = allMediaToSort.sort((a, b) => {
         const valueA = a[option];
         const valueB = b[option];
@@ -197,7 +199,7 @@ getInfos()
     });
   })
   .catch((err) => {
-    // Si l'URL n'est pas valide cela affichera un message d'erreur
+    // Si l'URL n'est pas valide cela affichera ce message d'erreur
     const target = document.getElementById("main");
     target.innerHTML = `
     <div class="message-error">
@@ -217,10 +219,6 @@ function displayModal() {
   photographerNameElement.textContent = photographerName;
 
   contactModal.style.display = "flex";
-
-  // Met le focus sur le premier élément focusable dans la modal
-  //focusedElementIndex = 0;
-  //focusableElements[focusedElementIndex].focus();
 
   const focusableElements = contactModal.querySelectorAll(
     'input[type="text"], input[type="email"], textarea, .contact_button'
@@ -253,42 +251,21 @@ contactModal.addEventListener("keydown", (event) => {
   }
 });
 
-let previouslyFocusedElement = null; // Grafikart
+let previouslyFocusedElement = null;
 let focusableElementsInModal = []; // Liste les éléments focusables dans la modal
 
 // Gestion de la fermeture des modals
 function closeModal() {
+  if (previouslyFocusedElement !== null) {
+    previouslyFocusedElement.focus(); // Grafikart
+  }
+
   const contactModal = document.getElementById("contact_modal");
   const galleryModal = document.getElementById("gallery_modal");
 
   contactModal.style.display = "none";
   galleryModal.style.display = "none";
-
-  if (previouslyFocusedElement !== null) {
-    previouslyFocusedElement.focus(); // Grafikart
-  }
 }
-
-/*
-// Grafikart
-const stopPropagation = function (e) {
-  e.stopPropagation()
-}
-
-const focusInModal = function (e) {
-  e.preventDefault()
-  
-}
-
-window.addEventListener('keydown', function (e) {
-  if (e.key === "Escape" || e.key === "Esc") {
-    closeModale(e)
-  }
-}
-  if (e.key === 'Tab' && modal !== null) {
-    focusInModal(e)
-  }
-*/
 
 document.addEventListener("keydown", function (event) {
   if (event.key === "Escape" || event.key === "Esc") {
@@ -305,7 +282,7 @@ const openModal = (infos, indexMedia, folderMedia) => {
   modalHtml.innerHTML = ""; // Enlève le contenu dans la modal
   previouslyFocusedElement = document.querySelector(":focus"); // Grafikart
 
-  const containerArrows = document.createElement("div"); // ou let ?
+  let containerArrows = document.createElement("div");
   containerArrows.classList.add("carousel");
   containerArrows.innerHTML = `
     <div class="blue-square"
@@ -326,34 +303,12 @@ const openModal = (infos, indexMedia, folderMedia) => {
 
   // Gestion du carousel avec les flèches G/D
   document.addEventListener("keydown", (event) => {
-    console.log(
-      "🚀 ~ file: photographer.js:289 ~ galleryModal.addEventListener ~ event.key:",
-      event.key
-    );
     if (event.key === "Escape") {
       closeModal();
     } else if (event.key === "ArrowLeft") {
       prevMedia(folderMedia);
     } else if (event.key === "ArrowRight") {
       nextMedia(folderMedia);
-    } else if (event.key === "Tab") {
-      event.preventDefault();
-
-      // Récupère tous les éléments focusables dans la modal
-      const focusableElements = galleryModal.querySelectorAll(
-        "a, button, input, textarea, object, image"
-      );
-      const firstFocusable = focusableElements[0];
-      const lastFocusable = focusableElements[focusableElements.length - 1];
-
-      // Gère la navigation avec la touche Tab
-      if (!event.shiftKey && document.activeElement === lastFocusable) {
-        event.preventDefault();
-        firstFocusable.focus();
-      } else if (event.shiftKey && document.activeElement === firstFocusable) {
-        event.preventDefault();
-        lastFocusable.focus();
-      }
     }
   });
 
@@ -368,6 +323,7 @@ const openModal = (infos, indexMedia, folderMedia) => {
     childrenTargetModal = document.createElement("video");
     childrenTargetModal.setAttribute("controls", true);
     childrenTargetModal.setAttribute("autoplay", true);
+    childrenTargetModal.setAttribute("tabindex", "0");
     let sourceHtml = document.createElement("source");
     sourceHtml.setAttribute("type", "video/mp4");
     sourceHtml.src = `./assets/images/${folderMedia}/${mediaSelected.video}`;
@@ -383,36 +339,47 @@ const openModal = (infos, indexMedia, folderMedia) => {
   modalHtml.appendChild(containerArrows);
 
   galleryModal.style.display = "block";
-};
 
-let isVideoPlaying = true;
-// Gestion de la fonction pause de la barre espace
-document.addEventListener("keydown", (event) => {
-  if (event.key === " " && event.target === document.body) {
-    event.preventDefault(); // Empêche le défilement de la page lorsque l'on appuie sur la barre espace
+  let isVideoPlaying = true;
+  // Gestion de la fonction pause de la barre espace
+  document.addEventListener("keyup", (event) => {
+    if (event.key === " " && event.target === document.body) {
+      event.preventDefault(); // Empêche le défilement de la page lorsque l'on appuie sur la barre espace
 
-    // Sélectionne la vidéo affichée dans la modal
-    const videoElement = document.querySelector("video");
+      // Sélectionne la vidéo affichée dans la modal
+      const videoElement = document.querySelector("video");
 
-    // Si une vidéo est trouvée, cela met "pause" ou "lecture"
-    if (videoElement) {
-      if (isVideoPlaying) {
-        pauseVideo(videoElement);
-      } else {
-        playVideo(videoElement);
+      // Si une vidéo est trouvée, cela met "pause" ou "lecture"
+      if (videoElement) {
+        if (isVideoPlaying) {
+          pauseVideo(videoElement);
+        } else {
+          playVideo(videoElement);
+        }
+        isVideoPlaying = !isVideoPlaying;
       }
-      isVideoPlaying = !isVideoPlaying;
     }
+  });
+  function playVideo(videoElement) {
+    /*
+    console.log(
+      "🚀 ~ file: photographer.js:411 ~ playVideo ~ playVideo:",
+      playVideo
+    );
+    */
+    videoElement.play();
   }
-});
 
-function playVideo(videoElement) {
-  videoElement.pause();
-}
-
-function pauseVideo(videoElement) {
-  videoElement.pause();
-}
+  function pauseVideo(videoElement) {
+    /*
+    console.log(
+      "🚀 ~ file: photographer.js:416 ~ pauseVideo ~ pauseVideo:",
+      pauseVideo
+    );
+    */
+    videoElement.pause();
+  }
+};
 
 // Gestion des fonctions "précédentes" et "suivantes" pour le carousel des medias
 // Fonction pour passer au média précédent
@@ -469,6 +436,7 @@ function toggleLike(id) {
   let currentEl = document.querySelector(`.likeAndHeart[data-id="${id}"]`);
   let idNumb = Number(id);
   let myCurrentElJS = allMedia.find((el) => el.id === idNumb);
+  /*
   console.log(
     "🚀 ~ file: photographer.js:257 ~ toggleLike ~ myCurrentElJS:",
     myCurrentElJS
@@ -476,7 +444,8 @@ function toggleLike(id) {
   console.log(
     "🚀 ~ file: photographer.js:257 ~ toggleLike ~ allMedia:",
     allMedia
-  );
+  );*/
+
   let likes = myCurrentElJS.likes;
   let isCheckedHTML = currentEl.querySelector(`.heart`);
   let totalLikes = document.querySelector(".like-quantity");

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <script
       src="https://kit.fontawesome.com/76951b6d18.js"
@@ -21,11 +21,14 @@
 
   <body>
     <header>
-      <a href="http://127.0.0.1:5500/Front-End-Fisheye-main/">
+      <a
+        href="http://127.0.0.1:5500/Front-End-Fisheye-main/"
+        title="Accueil"
+        tabindex="0"
+      >
         <img
           src="assets/images/logo.png"
           class="logo"
-          tabindex="0"
           alt="Fisheye Home page"
         />
       </a>
@@ -33,7 +36,13 @@
 
     <main id="main">
       <div class="photograph-header">
-        <button id="contact_button" class="contact_button" onclick="displayModal()" alt="Contact Me" >
+        <button
+          id="contact_button"
+          class="contact_button"
+          onclick="displayModal()"
+          alt="Contact Me"
+          aria-label="Cliquez ici pour me contacter"
+        >
           Contactez-moi
         </button>
       </div>
@@ -115,6 +124,7 @@
             type="submit"
             tabindex="0"
             id="send_button"
+            aria-label="Cliquez pour envoyer"
             onclick="redirectToPhotographerPage()"
           >
             Envoyer
@@ -129,8 +139,12 @@
       role="dialog"
       aria-labelledby="gallery_modal_label"
     >
-    <img class="cross-media" src="assets/icons/close.svg" onclick="closeModal()" />
-      <div class="modal">
+      <img
+        class="cross-media"
+        src="assets/icons/close.svg"
+        onclick="closeModal()"
+      />
+      <div class="modal"></div>
     </div>
 
     <script src="scripts/utils/contactForm.js"></script>

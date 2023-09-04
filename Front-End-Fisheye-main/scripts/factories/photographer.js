@@ -9,7 +9,7 @@ function photographerFactory(data) {
     const link = document.createElement("a");
     link.href = urlLocation;
     link.setAttribute("data-url", urlLocation);
-    link.tabIndex = 0;
+    article.setAttribute("tabindex", "0");
 
     const img = document.createElement("img");
     img.setAttribute("src", picture);
@@ -28,7 +28,7 @@ function photographerFactory(data) {
     taglineHtml.innerHTML = tagline;
 
     const priceHtml = document.createElement("p");
-    priceHtml.innerHTML = price;
+    priceHtml.innerHTML = `${price} €/jour`;
 
     article.appendChild(img);
     article.appendChild(h2);
@@ -36,6 +36,7 @@ function photographerFactory(data) {
     article.appendChild(paragrapheCountry);
     article.appendChild(taglineHtml);
     article.appendChild(priceHtml);
+
     link.appendChild(article);
 
     return link;
