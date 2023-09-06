@@ -100,12 +100,6 @@ getInfos()
     target.appendChild(mediaContainer);
 
     const sortMedia = (allMediaToSort, option) => {
-      /*
-      console.log(
-        "🚀 ~ file: photographer.js:80 ~ sortMedia ~ sortMedia:",
-        sortMedia
-      );
-      */
       let newMedia = allMediaToSort.sort((a, b) => {
         const valueA = a[option];
         const valueB = b[option];
@@ -361,22 +355,10 @@ const openModal = (infos, indexMedia, folderMedia) => {
     }
   });
   function playVideo(videoElement) {
-    /*
-    console.log(
-      "🚀 ~ file: photographer.js:411 ~ playVideo ~ playVideo:",
-      playVideo
-    );
-    */
     videoElement.play();
   }
 
   function pauseVideo(videoElement) {
-    /*
-    console.log(
-      "🚀 ~ file: photographer.js:416 ~ pauseVideo ~ pauseVideo:",
-      pauseVideo
-    );
-    */
     videoElement.pause();
   }
 };
