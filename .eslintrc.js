@@ -1,4 +1,3 @@
-/*
 module.exports = {
   extends: ["semistandard"],
   rules: {
@@ -7,4 +6,3 @@ module.exports = {
     multilineTernary: ["warn", "always-multiline"],
   },
 };
-*/
