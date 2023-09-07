@@ -70,7 +70,18 @@ getInfos()
     medias.forEach((media, i) => {
       let myFactoryMediaModel = mediaFactory(media, photographer);
       const myMediaHtml = myFactoryMediaModel.getHtmlMedia(i, medias);
-      mediaContainer.appendChild(myMediaHtml);
+
+      // Crée un élément <article> et transfère le contenu de myMediaHtml dedans
+      const articleElement = document.createElement("article");
+      articleElement.appendChild(myMediaHtml);
+
+      // Ajoute les classes appropriées à l'élément <article>
+      //articleElement.classList.add("media");
+      articleElement.setAttribute("role", "button");
+      articleElement.setAttribute("tabindex", "0");
+
+      // Ajoute l'élément <article> à la classe media-container
+      mediaContainer.appendChild(articleElement);
     });
 
     const updateTotal = (mediasToTotal) => {

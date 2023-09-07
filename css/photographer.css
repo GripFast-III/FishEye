@@ -266,8 +266,12 @@ textarea {
     gap: 2rem;
 }
 
+article {
+    width: 25rem;
+}
+
 .media {
-    width: calc(33% - 2rem);
+    width: 25rem;
 }
 
 .media-image, .media-video {
