@@ -76,9 +76,7 @@ getInfos()
       articleElement.appendChild(myMediaHtml);
 
       // Ajoute les classes appropriées à l'élément <article>
-      //articleElement.classList.add("media");
       articleElement.setAttribute("role", "button");
-      articleElement.setAttribute("tabindex", "0");
 
       // Ajoute l'élément <article> à la classe media-container
       mediaContainer.appendChild(articleElement);
@@ -262,7 +260,7 @@ let focusableElementsInModal = []; // Liste les éléments focusables dans la mo
 // Gestion de la fermeture des modals
 function closeModal() {
   if (previouslyFocusedElement !== null) {
-    previouslyFocusedElement.focus(); // Grafikart
+    previouslyFocusedElement.focus();
   }
 
   const contactModal = document.getElementById("contact_modal");
@@ -272,105 +270,153 @@ function closeModal() {
   galleryModal.style.display = "none";
 }
 
+// Gestion de la fermeture de la modale au clavier
 document.addEventListener("keydown", function (event) {
   if (event.key === "Escape" || event.key === "Esc") {
     closeModal();
   }
 });
 
+// Gestion du clic sur le cœur
+document.addEventListener("click", function (event) {
+  const clickedElement = event.target;
+
+  // Ciblez le bouton parent avec la classe "heart"
+  const heartButton = clickedElement.closest(".heart");
+
+  if (heartButton) {
+    event.preventDefault(); // Empêche le comportement par défaut du cœur
+
+    const mediaId = heartButton.getAttribute("data-id");
+    const liked = heartButton.getAttribute("data-liked");
+
+    if (liked === "no") {
+      // Met le "like"
+      toggleLike(mediaId);
+
+      // Met à jour l'état du bouton du cœur à "oui"
+      heartButton.setAttribute("data-liked", "yes");
+    } else {
+      // Retire le "like"
+      toggleLike(mediaId);
+
+      // Met à jour l'état du bouton du cœur à "non"
+      heartButton.setAttribute("data-liked", "no");
+    }
+
+    toggleLike(mediaId);
+
+    // Remet le focus sur le bouton like
+    heartButton.focus();
+  }
+});
+
+// Modifie la gestion de l'événement pour ouvrir la modal
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter" || event.key === " ") {
+    const focusedElement = document.activeElement;
+    if (focusedElement.classList.contains("heart")) {
+      event.preventDefault(); // Empêche la page de défiler lorsque la barre d'espace est pressée
+      event.stopPropagation(); // Arrête la propagation de l'événement
+    }
+  }
+});
+
 // Gestion de la modal des médias
 const openModal = (infos, indexMedia, folderMedia) => {
-  currentMediaIndex = indexMedia;
-  let mediaSelected = infos[indexMedia];
-  const galleryModal = document.getElementById("gallery_modal");
-  const modalHtml = galleryModal.querySelector(".modal");
-  modalHtml.innerHTML = ""; // Enlève le contenu dans la modal
-  previouslyFocusedElement = document.querySelector(":focus"); // Grafikart
+  if (event.target.tagName !== "BUTTON") {
+    currentMediaIndex = indexMedia;
+    let mediaSelected = infos[indexMedia];
+    const galleryModal = document.getElementById("gallery_modal");
+    const modalHtml = galleryModal.querySelector(".modal");
+    modalHtml.innerHTML = ""; // Enlève le contenu dans la modal
+    previouslyFocusedElement = document.querySelector(":focus"); // Grafikart
 
-  let containerArrows = document.createElement("div");
-  containerArrows.classList.add("carousel");
-  containerArrows.innerHTML = `
-    <div class="blue-square"
-      <div class="arrows">
-        <div class="carousel-arrow-left">
-          <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderMedia}')"></i>
-        </div>
-        <div class="cadre-media-and-title">
-          <div id="gallery_modal_current_media"></div>
-          <div class="under-title-media">${mediaSelected.title}</div>
-        </div>
-        <div class="carousel-arrow-right">
-          <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderMedia}')"></i>
+    let containerArrows = document.createElement("div");
+    containerArrows.classList.add("carousel");
+    containerArrows.innerHTML = `
+      <div class="blue-square"
+        <div class="arrows">
+          <div class="carousel-arrow-left">
+            <i class="fa-solid fa-angle-left" onclick="prevMedia('${folderMedia}')"></i>
+          </div>
+          <div class="cadre-media-and-title">
+            <div id="gallery_modal_current_media"></div>
+            <div class="under-title-media">${mediaSelected.title}</div>
+          </div>
+          <div class="carousel-arrow-right">
+            <i class="fa-solid fa-angle-right" onclick="nextMedia('${folderMedia}')"></i>
+          </div>
         </div>
       </div>
-    </div>
-  `;
+    `;
 
-  // Gestion du carousel avec les flèches G/D
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeModal();
-    } else if (event.key === "ArrowLeft") {
-      prevMedia(folderMedia);
-    } else if (event.key === "ArrowRight") {
-      nextMedia(folderMedia);
-    }
-  });
-
-  const targetModal = containerArrows.querySelector(
-    "#gallery_modal_current_media"
-  );
-
-  if (mediaSelected.image) {
-    childrenTargetModal = document.createElement("img");
-    childrenTargetModal.src = `./assets/images/${folderMedia}/${mediaSelected.image}`;
-  } else {
-    childrenTargetModal = document.createElement("video");
-    childrenTargetModal.setAttribute("controls", true);
-    childrenTargetModal.setAttribute("autoplay", true);
-    childrenTargetModal.setAttribute("tabindex", "0");
-    let sourceHtml = document.createElement("source");
-    sourceHtml.setAttribute("type", "video/mp4");
-    sourceHtml.src = `./assets/images/${folderMedia}/${mediaSelected.video}`;
-    childrenTargetModal.append(sourceHtml);
-  }
-
-  childrenTargetModal.data = `./assets/images/${folderMedia}/${
-    mediaSelected.image ? mediaSelected.image : mediaSelected.video
-  }`;
-
-  targetModal.append(childrenTargetModal);
-
-  modalHtml.appendChild(containerArrows);
-
-  galleryModal.style.display = "block";
-
-  let isVideoPlaying = true;
-  // Gestion de la fonction pause de la barre espace
-  document.addEventListener("keyup", (event) => {
-    if (event.key === " " && event.target === document.body) {
-      event.preventDefault(); // Empêche le défilement de la page lorsque l'on appuie sur la barre espace
-
-      // Sélectionne la vidéo affichée dans la modal
-      const videoElement = document.querySelector("video");
-
-      // Si une vidéo est trouvée, cela met "pause" ou "lecture"
-      if (videoElement) {
-        if (isVideoPlaying) {
-          pauseVideo(videoElement);
-        } else {
-          playVideo(videoElement);
-        }
-        isVideoPlaying = !isVideoPlaying;
+    // Gestion du carousel avec les flèches G/D
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      } else if (event.key === "ArrowLeft") {
+        prevMedia(folderMedia);
+      } else if (event.key === "ArrowRight") {
+        nextMedia(folderMedia);
       }
-    }
-  });
-  function playVideo(videoElement) {
-    videoElement.play();
-  }
+    });
 
-  function pauseVideo(videoElement) {
-    videoElement.pause();
+    const targetModal = containerArrows.querySelector(
+      "#gallery_modal_current_media"
+    );
+
+    if (mediaSelected.image) {
+      childrenTargetModal = document.createElement("img");
+      childrenTargetModal.src = `./assets/images/${folderMedia}/${mediaSelected.image}`;
+    } else {
+      childrenTargetModal = document.createElement("video");
+      childrenTargetModal.setAttribute("controls", true);
+      childrenTargetModal.setAttribute("autoplay", true);
+      childrenTargetModal.setAttribute("tabindex", "0");
+      let sourceHtml = document.createElement("source");
+      sourceHtml.setAttribute("type", "video/mp4");
+      sourceHtml.src = `./assets/images/${folderMedia}/${mediaSelected.video}`;
+      childrenTargetModal.append(sourceHtml);
+    }
+
+    childrenTargetModal.data = `./assets/images/${folderMedia}/${
+      mediaSelected.image ? mediaSelected.image : mediaSelected.video
+    }`;
+
+    targetModal.append(childrenTargetModal);
+
+    modalHtml.appendChild(containerArrows);
+
+    galleryModal.style.display = "block";
+
+    let isVideoPlaying = true;
+    // Gestion de la fonction pause de la barre espace
+    document.addEventListener("keyup", (event) => {
+      if (event.key === " " && event.target === document.body) {
+        event.preventDefault(); // Empêche le défilement de la page lorsque l'on appuie sur la barre espace
+
+        // Sélectionne la vidéo affichée dans la modal
+        const videoElement = document.querySelector("video");
+
+        // Si une vidéo est trouvée, cela met "pause" ou "lecture"
+        if (videoElement) {
+          if (isVideoPlaying) {
+            pauseVideo(videoElement);
+          } else {
+            playVideo(videoElement);
+          }
+          isVideoPlaying = !isVideoPlaying;
+        }
+      }
+    });
+    function playVideo(videoElement) {
+      videoElement.play();
+    }
+
+    function pauseVideo(videoElement) {
+      videoElement.pause();
+    }
   }
 };
 
@@ -429,15 +475,6 @@ function toggleLike(id) {
   let currentEl = document.querySelector(`.likeAndHeart[data-id="${id}"]`);
   let idNumb = Number(id);
   let myCurrentElJS = allMedia.find((el) => el.id === idNumb);
-  /*
-  console.log(
-    "🚀 ~ file: photographer.js:257 ~ toggleLike ~ myCurrentElJS:",
-    myCurrentElJS
-  );
-  console.log(
-    "🚀 ~ file: photographer.js:257 ~ toggleLike ~ allMedia:",
-    allMedia
-  );*/
 
   let likes = myCurrentElJS.likes;
   let isCheckedHTML = currentEl.querySelector(`.heart`);
@@ -478,6 +515,22 @@ function toggleLike(id) {
   currentEl.innerHTML = newTemplate;
   totalLikes.innerHTML = newTotalLikes;
 }
+
+// Gestion de la touche Entrée/Espace pour le cœur
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter" || event.key === " ") {
+    const focusedElement = document.activeElement;
+    if (focusedElement.classList.contains("heart")) {
+      event.preventDefault(); // Empêche le comportement par défaut de la touche
+
+      const mediaId = focusedElement.getAttribute("data-id");
+      toggleLike(mediaId);
+
+      // Remet le focus sur le bouton du cœur
+      focusedElement.focus();
+    }
+  }
+});
 
 // Gestion des informations saisies dans la modal de contact et fermeture de la modal après submit
 function redirectToPhotographerPage() {
